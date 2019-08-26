@@ -7,6 +7,7 @@ import {setIsMobile} from "../store/UI/actions";
 import AppBody from "../store/UI/containers/AppBody";
 import {NavMenu} from "../layout/Header/NavMenu";
 import AppParent from "../store/UI/containers/AppParent";
+import ResourceWrapper from "../store/Reactor/containers/ResourceWrapper";
 
 
 const store = AppStore;
@@ -30,6 +31,7 @@ function App() {
               <BrowserRouter>
                 <NavMenu/>
                 <AppBody isMobile={true}>
+                 <ResourceWrapper/>
                   <Routes/>
                 </AppBody>
               </BrowserRouter>

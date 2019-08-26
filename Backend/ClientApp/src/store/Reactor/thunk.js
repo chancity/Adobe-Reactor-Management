@@ -1,76 +1,95 @@
-import {cancelStreamSuccessAction, startStreamBeginAction, startStreamErrorAction, startStreamSuccessAction, addRecordAction} from "./actions";
-import camelCase from 'lodash/camelCase'
-import mapKeys from 'lodash/mapKeys'
-import omit from 'lodash/omit'
+import {
+	listResourceBeginAction,
+	listResourceSuccessAction,
+	listResourceErrorAction,
+	fetchResourceBeginAction,
+	fetchResourceSuccessAction,
+	fetchResourceErrorAction,
+	createResourceBeginAction,
+	createResourceSuccessAction,
+	createResourceErrorAction,
+	updateResourceBeginAction,
+	updateResourceSuccessAction,
+	updateResourceErrorAction,
+	reviseResourceBeginAction,
+	reviseResourceSuccessAction,
+	reviseResourceErrorAction,
+	deleteResourceBeginAction,
+	deleteResourceSuccessAction,
+	deleteResourceErrorAction
+} from "./actions";
 
 
-const bettaId = {};
-const getId = (caller) => {
-	const currentId = bettaId[caller] || 0;
-	let newId = currentId + 1;
+import {
+	get,
+	post,
+	patch,
+	del
+} from "../../helpers/betterFetch";
 
-	if(newId > 50)
-		newId = 0;
+export const listResource = (path) => async (dispatch, getState) => {
+	dispatch(listResourceBeginAction(path));
+	let response = null;
+	try {
+		response = await get(path);
+		const {parsedBody} = response;
 
-	bettaId[caller] = newId;
-	return newId;
-};
-const formatRecord  = (caller,record) => {
-
-
-	record.time = record.created_at || record.closed_at;
-	record.bettaId = getId(caller);
-	record.parentRenderTimestamp = Date.now();
-
-
-	const camelCasedRecord = mapKeys(record, (v, k) => camelCase(k));
-	return omit(camelCasedRecord, ['links']);
-};
-export const startStream = (caller, limit) => async (dispatch, getState, {api}) => {
-	const {BC} = getState();
-	if(BC.hasOwnProperty(caller)){
-		dispatch(startStreamErrorAction(caller,"only one stream at a time is allowed"));
+		dispatch(listResourceSuccessAction(path, parsedBody.data, parsedBody.meta));
+	} catch (e) {
+		dispatch(listResourceErrorAction(path, e));
 	}
-	dispatch(startStreamBeginAction(caller));
-
-	const okay = await api[caller]()
-		.cursor('now')
-		.limit(limit)
-		.call();
-
-	const data = await okay.prev();
-	const formatedRecords = [];
-	data.records.forEach(record =>{
-		formatedRecords.push(formatRecord(caller,record));
-	});
-
-	dispatch(addRecordAction(caller, formatedRecords , limit));
-
-	const pagingToken = data.records[0].paging_token;
-	const es = await api[caller]()
-			.cursor(pagingToken)
-			.limit(Math.round(limit/3))
-			.order('asc')
-			.stream({
-				onmessage: (record => {
-					dispatch(addRecordAction(caller, formatRecord(caller,record) , limit));
-				}),
-				onerror: onStreamError
-			});
-
-	dispatch(startStreamSuccessAction(caller, es));
 };
 
+export const fetchResource = (path) => async (dispatch, getState) => {
+	dispatch(fetchResourceBeginAction(path));
+	let response = null;
+	try {
+		response = await get(path);
+		const {parsedBody} = response;
 
-const onStreamError = (error)  => {
-	//console.error(error)
-};
-
-export const cancelStream = (caller) => async (dispatch, getState) => {
-	const {BC} = getState();
-	if(BC.hasOwnProperty(caller) &&	BC[caller].closeStream){
-
-		BC[caller].closeStream();
+		dispatch(fetchResourceSuccessAction(path, parsedBody.data, parsedBody.meta));
+	} catch (e) {
+		dispatch(fetchResourceErrorAction(path, e));
 	}
-	dispatch(cancelStreamSuccessAction(caller));
 };
+
+export const createResource = (path, data) => async (dispatch, getState) => {
+	dispatch(createResourceBeginAction(path));
+	try {
+
+		dispatch(createResourceSuccessAction(path, data));
+	} catch (e) {
+		dispatch(createResourceErrorAction(path, e));
+	}
+};
+
+export const updateResource = (path, data) => async (dispatch, getState) => {
+	dispatch(updateResourceBeginAction(path));
+	try {
+
+		dispatch(updateResourceSuccessAction(path, data));
+	} catch (e) {
+		dispatch(updateResourceErrorAction(path, e));
+	}
+};
+
+export const reviseResource = (path, data) => async (dispatch, getState) => {
+	dispatch(reviseResourceBeginAction(path));
+	try {
+
+		dispatch(reviseResourceSuccessAction(path, data));
+	} catch (e) {
+		dispatch(reviseResourceErrorAction(path, e));
+	}
+};
+
+export const deleteResource = (path, data) => async (dispatch, getState) => {
+	dispatch(deleteResourceBeginAction(path));
+	try {
+
+		dispatch(deleteResourceSuccessAction(path, data));
+	} catch (e) {
+		dispatch(deleteResourceErrorAction(path, e));
+	}
+};
+

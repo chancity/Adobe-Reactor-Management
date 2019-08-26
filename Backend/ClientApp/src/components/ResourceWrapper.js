@@ -2,7 +2,7 @@ import React from 'react';
 import {withRouter} from "react-router";
 
 
-const ListResourceWrapper = ({location, listResource}) => {
+const ResourceWrapper = ({location, listResource}) => {
     React.useEffect(() => {
         listResource(location.pathname)
     }, [listResource, location.pathname]);
@@ -10,4 +10,4 @@ const ListResourceWrapper = ({location, listResource}) => {
     return null;
 };
 
-export default withRouter(ListResourceWrapper);
+export default withRouter(ResourceWrapper);

@@ -1,14 +1,14 @@
-//import {applyMiddleware, combineReducers, createStore} from "redux";
-import {combineReducers, createStore} from "redux";
-//import thunk from 'redux-thunk';
+import {applyMiddleware, combineReducers, createStore} from "redux";
+import thunkMiddleware from 'redux-thunk'
 import UIReducer from "./UI/reducers";
-
+import ReactorReducer from "./Reactor/reducers";
 
 const rootReducer = combineReducers({
-	UI: UIReducer
+	UI: UIReducer,
+	Reactor: ReactorReducer
+
 });
 
-//const middlewares = [thunk.withExtraArgument];
-//const middleWareEnhancer = applyMiddleware(...middlewares);
-//export default createStore(rootReducer, middleWareEnhancer);
-export default createStore(rootReducer);
+const middlewares = [thunkMiddleware];
+const middleWareEnhancer = applyMiddleware(...middlewares);
+export default createStore(rootReducer, middleWareEnhancer);

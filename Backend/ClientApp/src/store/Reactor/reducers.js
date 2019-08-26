@@ -1,77 +1,93 @@
 import {
-	STARTED_STREAM_SUCCESS,
-	STARTED_STREAM_BEGIN,
-	STARTED_STREAM_ERROR,
-	CANCELED_STREAM_BEGIN,
-	CANCELED_STREAM_SUCCESS,
-	CANCELED_STREAM_ERROR,
-	ADD_RECORD
+	SET_COMPANY_ID,
+	SET_PROPERTY_ID,
+	SET_RESOURCE_ID,
+	LIST_RESOURCE_BEGIN,
+	LIST_RESOURCE_SUCCESS,
+	LIST_RESOURCE_ERROR,
+	FETCH_RESOURCE_BEGIN,
+	FETCH_RESOURCE_SUCCESS,
+	FETCH_RESOURCE_ERROR,
+	CREATE_RESOURCE_BEGIN,
+	CREATE_RESOURCE_SUCCESS,
+	CREATE_RESOURCE_ERROR,
+	UPDATE_RESOURCE_BEGIN,
+	UPDATE_RESOURCE_SUCCESS,
+	UPDATE_RESOURCE_ERROR,
+	REVISE_RESOURCE_BEGIN,
+	REVISE_RESOURCE_SUCCESS,
+	REVISE_RESOURCE_ERROR,
+	DELETE_RESOURCE_BEGIN,
+	DELETE_RESOURCE_SUCCESS,
+	DELETE_RESOURCE_ERROR,
 } from './types'
-const initialState = {};
+
+const initialState = {
+	loaded: false,
+	companyId: undefined,
+	propertyId: undefined,
+	resourceId: undefined,
+	path: "/companies",
+	data: {},
+	meta: {}
+};
 
 export default (state = initialState, action)  => {
-	const stateCopy  = {...state};
 	switch (action.type) {
-		case STARTED_STREAM_BEGIN:
-			stateCopy[action.payload.name] = {
-				records:[],
-				closeStream: undefined,
-				error: undefined,
-				loaded: false
-			};
+		case SET_COMPANY_ID:
 			return {
 				...state,
-				...stateCopy
+				companyId: action.payload.id
 			};
-		case STARTED_STREAM_SUCCESS:
-			stateCopy[action.payload.name].closeStream = action.payload.closeFn;
-			stateCopy[action.payload.name].loaded = true;
+		case SET_PROPERTY_ID:
 			return {
 				...state,
-				...stateCopy
+				propertyId: action.payload.id
 			};
-		case STARTED_STREAM_ERROR:
-			stateCopy[action.payload.name].error = action.payload.error;
-			stateCopy[action.payload.name].loaded = true;
+		case SET_RESOURCE_ID:
 			return {
 				...state,
-				...stateCopy
+				resourceId: action.payload.id
 			};
-		case CANCELED_STREAM_SUCCESS:
-			delete stateCopy[action.payload.name];
+		case LIST_RESOURCE_BEGIN:
+		case FETCH_RESOURCE_BEGIN:
+		case CREATE_RESOURCE_BEGIN:
+		case UPDATE_RESOURCE_BEGIN:
+		case REVISE_RESOURCE_BEGIN:
+		case DELETE_RESOURCE_BEGIN:
 			return {
 				...state,
-				...stateCopy
+				path: action.payload.path,
+				loaded: false,
+				error: {}
 			};
-		case ADD_RECORD:
-			const recordsCopy = [...stateCopy[action.payload.name].records];
-			const record = action.payload.record;
-
-
-			if(Array.isArray(record)) {
-				record.forEach((rec) => {
-					recordsCopy.splice(0, 0, rec);
-					if(recordsCopy.length >= action.payload.limit ) {
-						recordsCopy.splice(-1, 1);
-					}
-				});
-
-			} else {
-
-				recordsCopy.splice(0, 0, record);
-				if(recordsCopy.length >= action.payload.limit ) {
-					recordsCopy.splice(-1, 1);
-				}
-			}
-
-			if(!stateCopy[action.payload.name].loaded)
-				stateCopy[action.payload.name].loaded =  true;
-			stateCopy[action.payload.name].records =  recordsCopy;
-
+		case LIST_RESOURCE_SUCCESS:
+		case FETCH_RESOURCE_SUCCESS:
+		case CREATE_RESOURCE_SUCCESS:
+		case UPDATE_RESOURCE_SUCCESS:
+		case REVISE_RESOURCE_SUCCESS:
+		case DELETE_RESOURCE_SUCCESS:
 			return {
 				...state,
-				...stateCopy,
-
+				path: action.payload.path,
+				data: action.payload.data,
+				meta: action.payload.meta,
+				error: {},
+				loaded: true
+			};
+		case LIST_RESOURCE_ERROR:
+		case FETCH_RESOURCE_ERROR:
+		case CREATE_RESOURCE_ERROR:
+		case UPDATE_RESOURCE_ERROR:
+		case REVISE_RESOURCE_ERROR:
+		case DELETE_RESOURCE_ERROR:
+			return {
+				...state,
+				path: action.payload.path,
+				error: action.payload.error,
+				data: {},
+				meta: {},
+				loaded: true
 			};
 		default:
 			return state

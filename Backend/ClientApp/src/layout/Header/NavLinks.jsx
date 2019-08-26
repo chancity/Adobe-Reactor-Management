@@ -5,12 +5,12 @@ import {Seperator} from "./Styled/Navbar";
 export const NavLinks = ({onClick, companyId}) => {
 	return (
 		<Wrapper>
-			<NavLink to={`/companies/${companyId}/properties`} onClick={onClick} activeClassName={"navActive"}>
-				Properties
+			<NavLink to={`/companies`} onClick={onClick}>
+				Companies
 			</NavLink>
 			<Seperator/>
-			<NavLink to={`/companies/${companyId}/auditEvents`} onClick={onClick} activeClassName={"navActive"}>
-				Audit Events
+			<NavLink to={`/companies/${companyId}/properties`} onClick={onClick}>
+				Properties
 			</NavLink>
 		</Wrapper>
 	);

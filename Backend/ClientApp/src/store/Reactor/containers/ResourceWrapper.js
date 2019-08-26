@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import ListResourceWrapperC from "../../../components/ListResourceWrapper";
+import ResourceWrapperC from "../../../components/ResourceWrapper";
 import {listResource} from "../thunk";
 
 const mapStateToProps = (state)=> {
@@ -11,6 +11,6 @@ const mapStateToProps = (state)=> {
 };
 
 
-const ListResourceWrapper = connect(mapStateToProps,{listResource})(ListResourceWrapperC);
-export default 	ListResourceWrapper;
+const ResourceWrapper = connect(null,{listResource})(ResourceWrapperC);
+export default 	ResourceWrapper;
 

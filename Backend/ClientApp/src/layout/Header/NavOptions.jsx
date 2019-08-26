@@ -30,6 +30,10 @@ const navOptions = [
 	{
 		path:"callbacks",
 		text: "Callbacks",
+	},
+	{
+		path:"auditEvents",
+		text: "Audit Events",
 	}
 ];
 

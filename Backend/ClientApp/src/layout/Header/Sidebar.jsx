@@ -19,7 +19,7 @@ const Sidebar = ({ navOpen, isMobile, setNavOpen, companyId, propertyId }) => {
 				{navOptions.map((value, index)=>(
 					<Section key={index}>
 						<SectionTitle>
-							<StyledLink to={`companies/${companyId}/properties/${propertyId}/${value.path}`} onClick={toggle} exact activeClassName="navActive">
+							<StyledLink to={`/companies/${companyId}/properties/${propertyId}/${value.path}`} onClick={toggle} exact activeClassName="navActive">
 								{value.text}
 							</StyledLink>
 						</SectionTitle>
