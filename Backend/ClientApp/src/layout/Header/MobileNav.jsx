@@ -8,7 +8,6 @@ import {Logo} from "../Logo";
 import {NavLinks} from "./NavLinks";
 import {SocialLinks} from "./SocialLinks";
 
-
 const OpenButtonStyle = {background: "#2f3136"};
 const arrowWrapperStyle = {transformOrigin: "center center",transform: "rotate(180deg)",transition: "transform 0.2s ease 0s"};
 const arrowSvgStyle = {width: "2rem", height: "2rem"};
@@ -45,8 +44,6 @@ export const MobileNav = ({setSearchOpen, setNavOpen, setSecondaryNavOpen, navOp
 				<SocialLinks/>
 			</SecondaryMenuItem>
 		</SecondaryMenu>
-
-
 	</Wrapper>
 );
 

@@ -7,6 +7,7 @@ using Backend.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -40,6 +41,11 @@ namespace Backend
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 });
 
+
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/build";
+            });
 
             var accountOptions = new AccountOptions(
                 Configuration[Defaults.ORGANIZATION_ID],
@@ -75,16 +81,24 @@ namespace Backend
             {
                 app.UseDeveloperExceptionPage();
             }
-            
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
+
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSpaStaticFiles();
+
             app.UseCors(Defaults.ALL_CORS_POLICY);
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller}/{action}/{id?}",
-                    defaults: new { controller = "Home", action = "Index" }
+                    template: "{controller}/{action}/{id?}"
                 );
 
                 routes.MapRoute(
@@ -92,7 +106,16 @@ namespace Backend
                     template: "adobe_launch/proxy/{*slug}",
                     defaults: new { controller = "AdobeLaunch", action = "CatchAll" }
                 );
+            });
 
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseReactDevelopmentServer(npmScript: "start");
+                }
             });
         }
     }

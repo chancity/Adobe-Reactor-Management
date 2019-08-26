@@ -1,85 +1,36 @@
-const kinApps = [
+const navOptions = [
 	{
-		path:"",
-		text: "All",
-	},
-//	{
-//		path:"ios",
-//		text: "iOS",
-//	},
-//	{
-//		path:"android",
-//		text: "Android",
-//	}
-];
-
-const stats = [
-	{
-		path:"",
+		path:"overview",
 		text: "Overview",
 	},
 	{
-		path:"mas",
-		text: "Monthly Active Spenders",
+		path:"rules",
+		text: "Rules",
 	},
 	{
-		path:"mae",
-		text: "Monthly Active Earners",
+		path:"dataElements",
+		text: "Data Elements",
 	},
 	{
-		path:"mat",
-		text: "Monthly Active Tourists",
+		path:"extensions/installed",
+		text: "Extensions",
+	},
+	{
+		path:"hosts",
+		text: "Hosts",
+	},
+	{
+		path:"environments",
+		text: "Environments",
+	},
+	{
+		path:"publishing",
+		text: "Publishing",
+	},
+	{
+		path:"callbacks",
+		text: "Callbacks",
 	}
 ];
-
-const explorerNav = [
-	{
-		path:"",
-		text: "Overview",
-	},
-	{
-		path:"operations",
-		text: "Operations",
-	},
-	{
-		path:"ledgers",
-		text: "Ledgers",
-	},
-	{
-		path:"transactions",
-		text: "Transactions",
-	},
-//	{
-//		path:"effects",
-//		text: "Effects",
-//	},
-	{
-		path:"payments",
-		text: "Payments",
-	}
-];
-
-const myKinWallet = [
-	{
-		path:"",
-		text: "Overview",
-	},
-	{
-		path:"payments",
-		text: "Payments",
-	},
-	{
-		path:"signers",
-		text: "Signers",
-	}
-];
-
-
-const navOptions = {
-	"explorer": explorerNav,
-	"apps": kinApps,
-	"stats": stats,
-	"my-kin-wallet": myKinWallet
-};
 
 export default navOptions;

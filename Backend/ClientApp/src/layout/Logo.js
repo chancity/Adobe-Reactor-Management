@@ -1,9 +1,7 @@
 import styled, { keyframes } from 'styled-components/macro'
 import React from "react";
 import {Link} from "react-router-dom";
-//import KinIcon from '../static/images/kin/kin-icon.svg';
-import KinLogoFull from '../static/images/kin/kin-logo-purple.svg';
-
+import LaunchLogo from '../static/images/launch.svg';
 
 const spin = keyframes`
   0% {
@@ -31,7 +29,7 @@ const LogoBg = styled.div`
     vertical-align: middle;
     box-sizing: border-box;
     background-size: contain;
-    background-image: url(${KinLogoFull});
+    background-image: url(${LaunchLogo});
     
     width: 1.75rem;
     height: 1.75rem;
@@ -41,9 +39,9 @@ const LogoBg = styled.div`
 
 
 export const Logo = () =>(
-	<LogoLink to={"/explorer"}>
+	<LogoLink to={"/"}>
 		<LogoBg/>
-		<span style={{color: "#936BFB", verticalAlign: "middle"}}>Explorer</span>
+		<span style={{color: "#936BFB", verticalAlign: "middle"}}>Manager</span>
 	</LogoLink>
 )
 

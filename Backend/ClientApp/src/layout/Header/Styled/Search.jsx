@@ -126,7 +126,7 @@ export const Input = styled.input`
 	}
 `;
 
-export const PreShit = styled.pre`
+export const PreShift = styled.pre`
     position: absolute;
     visibility: hidden;	
     white-space: pre;

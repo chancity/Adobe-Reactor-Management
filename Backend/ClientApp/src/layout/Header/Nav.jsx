@@ -7,8 +7,6 @@ import Search from "../../store/UI/containers/Search";
 
 
 
-
-
 export const Nav = () => {
 	return (
 		<Normal>

@@ -1,4 +1,4 @@
-import {Label, Header, Modal, Overlay, Wrapper,Input, PreShit} from "./Styled/Search";
+import {Label, Header, Modal, Overlay, Wrapper,Input, PreShift} from "./Styled/Search";
 import React from "react";
 import { ReactComponent as SearchSvg } from '../../static/images/layout/menu-search.svg';
 import { ReactComponent as CloseSvg } from '../../static/images/layout/menu-search-close.svg';
@@ -9,7 +9,6 @@ const searchInputWrapperStyle = {position: "relative", display: "inline-block", 
 
 export const Search = ({searchOpen, isMobile, setSearchOpen}) =>{
 	const svgStyle = searchOpen && isMobile ? searchOpenStyle : searchCloseStyle;
-
 	return(
 	<>
 		<Header searchOpen={searchOpen && isMobile}>
@@ -25,9 +24,9 @@ export const Search = ({searchOpen, isMobile, setSearchOpen}) =>{
 						<SearchSvg style={svgStyle}/>
 					</Label>
 					<span style={searchInputWrapperStyle}>
-						<Input placeholder={"Search by Account / Transaction / ..."} autoFocus={true}>
+						<Input placeholder={"Search by rule / data element / ..."} autoFocus={true}>
 						</Input>
-						<PreShit/>
+						<PreShift/>
 					</span>
 				</Wrapper>
 				</div>

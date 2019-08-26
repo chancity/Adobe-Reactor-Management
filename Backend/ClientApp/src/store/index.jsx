@@ -1,16 +1,14 @@
-import {applyMiddleware, combineReducers, createStore} from "redux";
-import thunk from 'redux-thunk';
+//import {applyMiddleware, combineReducers, createStore} from "redux";
+import {combineReducers, createStore} from "redux";
+//import thunk from 'redux-thunk';
 import UIReducer from "./UI/reducers";
-import Blockchain from "./Blockchain/reducers";
-import sdk from '@kinecosystem/kin-sdk'
-const server = new sdk.Server('https://horizon-block-explorer.kininfrastructure.com/');
 
 
 const rootReducer = combineReducers({
-	UI: UIReducer,
-	BC: Blockchain
+	UI: UIReducer
 });
 
-const middlewares = [thunk.withExtraArgument({api: server})];
-const middleWareEnhancer = applyMiddleware(...middlewares);
-export default createStore(rootReducer, middleWareEnhancer);
+//const middlewares = [thunk.withExtraArgument];
+//const middleWareEnhancer = applyMiddleware(...middlewares);
+//export default createStore(rootReducer, middleWareEnhancer);
+export default createStore(rootReducer);

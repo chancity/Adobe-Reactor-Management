@@ -5,9 +5,7 @@ import MobileNav from "../../store/UI/containers/MobileNav";
 import Sidebar from "../../store/UI/containers/Sidebar";
 
 
-
 export const NavMenu = () => {
-
 	return (
 		<NavHeader>
 			<Wrapper>
