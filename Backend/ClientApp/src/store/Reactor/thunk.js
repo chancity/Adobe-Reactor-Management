@@ -67,6 +67,7 @@ export const createResource = (path, data) => async (dispatch, getState) => {
 };
 
 export const updateResource = (path, data) => async (dispatch, getState) => {
+	dispatch(updateResourceBeginAction(path));
 	let response = null;
 	try {
 		response = await patch(path, data);

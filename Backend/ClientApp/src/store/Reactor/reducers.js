@@ -29,6 +29,7 @@ const initialState = {
 	resourceId: undefined,
 	path: "/companies",
 	data: {},
+	list: [],
 	meta: {}
 };
 
@@ -59,6 +60,8 @@ export default (state = initialState, action)  => {
 				...state,
 				path: action.payload.path,
 				loaded: false,
+				data: {},
+				list:[],
 				error: {}
 			};
 		case LIST_RESOURCE_SUCCESS:
@@ -70,7 +73,8 @@ export default (state = initialState, action)  => {
 			return {
 				...state,
 				path: action.payload.path,
-				data: action.payload.data,
+				data: !Array.isArray(action.payload.data) ? action.payload.data : state.data,
+				list: Array.isArray(action.payload.data) ? action.payload.data : state.list,
 				meta: action.payload.meta,
 				error: {},
 				loaded: true
@@ -86,6 +90,7 @@ export default (state = initialState, action)  => {
 				path: action.payload.path,
 				error: action.payload.error,
 				data: {},
+				list:[],
 				meta: {},
 				loaded: true
 			};
