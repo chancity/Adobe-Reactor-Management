@@ -55,19 +55,24 @@ export const fetchResource = (path) => async (dispatch, getState) => {
 
 export const createResource = (path, data) => async (dispatch, getState) => {
 	dispatch(createResourceBeginAction(path));
+	let response = null;
 	try {
+		response = await post(path, data);
+		const {parsedBody} = response;
 
-		dispatch(createResourceSuccessAction(path, data));
+		dispatch(createResourceSuccessAction(path, parsedBody.data, parsedBody.meta));
 	} catch (e) {
 		dispatch(createResourceErrorAction(path, e));
 	}
 };
 
 export const updateResource = (path, data) => async (dispatch, getState) => {
-	dispatch(updateResourceBeginAction(path));
+	let response = null;
 	try {
+		response = await patch(path, data);
+		const {parsedBody} = response;
 
-		dispatch(updateResourceSuccessAction(path, data));
+		dispatch(updateResourceSuccessAction(path, parsedBody.data, parsedBody.meta));
 	} catch (e) {
 		dispatch(updateResourceErrorAction(path, e));
 	}
@@ -75,9 +80,13 @@ export const updateResource = (path, data) => async (dispatch, getState) => {
 
 export const reviseResource = (path, data) => async (dispatch, getState) => {
 	dispatch(reviseResourceBeginAction(path));
+	let response = null;
 	try {
+		data.meta = {action:'revise'};
+		response = await patch(path, data);
+		const {parsedBody} = response;
 
-		dispatch(reviseResourceSuccessAction(path, data));
+		dispatch(reviseResourceSuccessAction(path, parsedBody.data, parsedBody.meta));
 	} catch (e) {
 		dispatch(reviseResourceErrorAction(path, e));
 	}
@@ -85,9 +94,12 @@ export const reviseResource = (path, data) => async (dispatch, getState) => {
 
 export const deleteResource = (path, data) => async (dispatch, getState) => {
 	dispatch(deleteResourceBeginAction(path));
+	let response = null;
 	try {
+		response = await del(path);
+		const {parsedBody} = response;
 
-		dispatch(deleteResourceSuccessAction(path, data));
+		dispatch(deleteResourceSuccessAction(path, parsedBody.data, parsedBody.meta));
 	} catch (e) {
 		dispatch(deleteResourceErrorAction(path, e));
 	}
