@@ -1,14 +1,18 @@
 import { connect } from 'react-redux'
-import ResourceWrapperC from "../../../components/ResourceWrapper";
-import {listResource, initialize} from "../thunk";
+import PropertiesPageC from "../../../pages/PropertiesPage";
+import {setPropertyIdAction} from "../actions";
 
 const mapStateToProps = (state)=> {
 	return {
-		initialized: state.Reactor.initialized
+		list: state.Reactor.list,
+		meta: state.Reactor.meta,
+		loaded: state.Reactor.loaded,
+		companyId: state.Reactor.companyId,
+		companyName: state.Reactor.companyName
 	}
 };
 
 
-const ResourceWrapper = connect(mapStateToProps, {listResource, initialize})(ResourceWrapperC);
-export default 	ResourceWrapper;
+const PropertiesPage = connect(mapStateToProps, {setPropertyIdAction})(PropertiesPageC);
+export default 	PropertiesPage;
 

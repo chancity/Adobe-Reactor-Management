@@ -1,14 +1,11 @@
 import { connect } from 'react-redux'
-import SidebarC  from "../../../layout/Header/Sidebar";
-import {setNavOpen} from "../actions";
+import NavLinksC  from "../../../layout/Header/NavLinks";
+import {setSecondaryNavOpen} from "../actions";
 
 const mapStateToProps = (state)=>({
-	isMobile: state.UI.isMobile,
-	navOpen: state.UI.navOpen,
-	companyId: state.Reactor.companyId,
-	propertyId: state.Reactor.propertyId,
+	companyId: state.Reactor.companyId
 });
 
-const Sidebar = connect(mapStateToProps,{setNavOpen})(SidebarC);
-export default 	Sidebar;
+const NavLinks = connect(mapStateToProps,{setSecondaryNavOpen})(NavLinksC);
+export default 	NavLinks;
 

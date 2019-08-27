@@ -1,16 +1,14 @@
 import { connect } from 'react-redux'
 import ResourceWrapperC from "../../../components/ResourceWrapper";
-import {listResource} from "../thunk";
+import {listResource, initialize} from "../thunk";
 
 const mapStateToProps = (state)=> {
 	return {
-		data: state.data,
-		loaded: state.loaded,
-		error: state.error
+		initialized: state.Reactor.initialized
 	}
 };
 
 
-const ResourceWrapper = connect(null,{listResource})(ResourceWrapperC);
+const ResourceWrapper = connect(mapStateToProps, {listResource, initialize})(ResourceWrapperC);
 export default 	ResourceWrapper;
 

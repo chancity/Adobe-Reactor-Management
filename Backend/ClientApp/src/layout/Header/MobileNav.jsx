@@ -5,8 +5,8 @@ import { ReactComponent as ArrowSvg } from '../../static/images/layout/menu-arro
 import { ReactComponent as SearchSvg } from '../../static/images/layout/menu-search.svg';
 import React from "react";
 import {Logo} from "../Logo";
-import {NavLinks} from "./NavLinks";
 import {SocialLinks} from "./SocialLinks";
+import NavLinks from "../../store/UI/containers/NavLinks";
 
 const OpenButtonStyle = {background: "#2f3136"};
 const arrowWrapperStyle = {transformOrigin: "center center",transform: "rotate(180deg)",transition: "transform 0.2s ease 0s"};
@@ -39,7 +39,7 @@ export const MobileNav = ({setSearchOpen, setNavOpen, setSecondaryNavOpen, navOp
 			</ButtonWrapper>
 		</div>
 		<SecondaryMenu open={secondaryNavOpen}>
-			<NavLinks onClick={setSecondaryNavOpen}/>
+			<NavLinks/>
 			<SecondaryMenuItem>
 				<SocialLinks/>
 			</SecondaryMenuItem>

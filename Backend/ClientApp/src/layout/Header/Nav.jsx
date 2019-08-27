@@ -1,9 +1,9 @@
 import {Normal, StartWrapper, EndWrapper, SocialWrapper} from "./Styled/Navbar";
 import React from 'react';
 import {Logo} from "../Logo";
-import {NavLinks} from "./NavLinks";
 import {SocialLinks} from "./SocialLinks";
 import Search from "../../store/UI/containers/Search";
+import NavLinks from "../../store/UI/containers/NavLinks";
 
 
 

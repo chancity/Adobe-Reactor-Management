@@ -16,9 +16,12 @@ import {
 	reviseResourceErrorAction,
 	deleteResourceBeginAction,
 	deleteResourceSuccessAction,
-	deleteResourceErrorAction
+	deleteResourceErrorAction,
+	setInitializedAction,
+	setCompanyIdAction
 } from "./actions";
 
+import history from "../../app/History";
 
 import {
 	get,
@@ -27,11 +30,31 @@ import {
 	del
 } from "../../helpers/betterFetch";
 
+export const initialize = () => async (dispatch, getState) => {
+	const initializePath = "/companies";
+	dispatch(listResourceBeginAction(initializePath));
+	let response = null;
+	try {
+		response = await get(initializePath);
+		const {parsedBody} = response;
+		const {attributes, id} = parsedBody.data[0];
+
+
+		dispatch(setInitializedAction());
+		dispatch(setCompanyIdAction(id, attributes.name));
+
+		dispatch(listResourceSuccessAction(initializePath, [],{}));
+		history.push(`/companies/${id}/properties`)
+	} catch (e) {
+		dispatch(listResourceErrorAction(initializePath, e));
+	}
+};
+
 export const listResource = (path) => async (dispatch, getState) => {
 	dispatch(listResourceBeginAction(path));
 	let response = null;
 	try {
-		response = await get(path);
+		response = await get(path + "?page[size]=10");
 		const {parsedBody} = response;
 
 		dispatch(listResourceSuccessAction(path, parsedBody.data, parsedBody.meta));

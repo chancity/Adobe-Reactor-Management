@@ -1,6 +1,6 @@
 import React from 'react';
 import Routes from "./Routes";
-import {BrowserRouter} from "react-router-dom";
+import {Router} from "react-router";
 import {Provider} from "react-redux";
 import AppStore from "../store";
 import {setIsMobile} from "../store/UI/actions";
@@ -8,7 +8,7 @@ import AppBody from "../store/UI/containers/AppBody";
 import {NavMenu} from "../layout/Header/NavMenu";
 import AppParent from "../store/UI/containers/AppParent";
 import ResourceWrapper from "../store/Reactor/containers/ResourceWrapper";
-
+import history from "./History";
 
 const store = AppStore;
 
@@ -21,20 +21,22 @@ function App() {
 
     React.useEffect(() => {
         window.addEventListener("resize", () => {
-            setMobile(window.innerWidth <= 1000);
+            const current = window.innerWidth <= 1000;
+            if(current !== isMobile)
+                setMobile(current);
         });
-    }, [setMobile]);
+    }, [setMobile, isMobile]);
 
     return (
         <Provider store={store}>
-            <AppParent isMobile={true}>
-              <BrowserRouter>
+            <AppParent isMobile={isMobile}>
+            <Router history={history}>
                 <NavMenu/>
-                <AppBody isMobile={true}>
+                <AppBody isMobile={isMobile}>
                  <ResourceWrapper/>
                   <Routes/>
                 </AppBody>
-              </BrowserRouter>
+              </Router>
             </AppParent>
         </Provider>
     );

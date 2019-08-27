@@ -2,6 +2,7 @@ import {
 	SET_COMPANY_ID,
 	SET_PROPERTY_ID,
 	SET_RESOURCE_ID,
+	SET_INITIALIZED,
 	LIST_RESOURCE_BEGIN,
 	LIST_RESOURCE_SUCCESS,
 	LIST_RESOURCE_ERROR,
@@ -23,10 +24,11 @@ import {
 
 } from './types'
 
-const setCompanyIdAction = (id) => ({
+const setCompanyIdAction = (id, name) => ({
 	type: SET_COMPANY_ID,
 	payload:{
-		id: id
+		id: id,
+		name: name
 	}
 });
 
@@ -43,6 +45,11 @@ const setResourceId = (id) => ({
 		id: id
 	}
 });
+
+const setInitializedAction = () => ({
+	type: SET_INITIALIZED,
+});
+
 const listResourceBeginAction = (path) => ({
 	type: LIST_RESOURCE_BEGIN,
 	payload:{
@@ -187,6 +194,7 @@ export {
 	setCompanyIdAction,
 	setPropertyIdAction,
 	setResourceId,
+	setInitializedAction,
 	listResourceBeginAction,
 	listResourceSuccessAction,
 	listResourceErrorAction,

@@ -16,11 +16,9 @@ const spin = keyframes`
 const LogoLink = styled(Link)`
     display: inline-block;
     margin-right: 1.94444rem;
+    cursor: pointer;
     @media (max-width: 55.5rem) {
     	    margin-right: 0;
-    }
-        :hover{
-    	animation:  .5s ${spin}  infinite alternate;
     }
 `;
 
@@ -40,10 +38,10 @@ const LogoBg = styled.div`
 
 
 export const Logo = () =>(
-	<LogoLink to={"/"}>
+	<LogoLink to={"/"} onClick={(e) => e.preventDefault()}>
 		<LogoBg/>
 		<span style={{color: "#936BFB", verticalAlign: "middle"}}>Manager</span>
 	</LogoLink>
-)
+);
 
 

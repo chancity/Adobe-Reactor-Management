@@ -2,6 +2,7 @@ import {
 	SET_COMPANY_ID,
 	SET_PROPERTY_ID,
 	SET_RESOURCE_ID,
+	SET_INITIALIZED,
 	LIST_RESOURCE_BEGIN,
 	LIST_RESOURCE_SUCCESS,
 	LIST_RESOURCE_ERROR,
@@ -23,6 +24,7 @@ import {
 } from './types'
 
 const initialState = {
+	initialized: false,
 	loaded: false,
 	companyId: undefined,
 	propertyId: undefined,
@@ -38,17 +40,23 @@ export default (state = initialState, action)  => {
 		case SET_COMPANY_ID:
 			return {
 				...state,
-				companyId: action.payload.id
+				companyId: action.payload.id,
+				companyName: action.payload.name
 			};
 		case SET_PROPERTY_ID:
 			return {
 				...state,
-				propertyId: action.payload.id
+				propertyId: action.payload.id,
 			};
 		case SET_RESOURCE_ID:
 			return {
 				...state,
 				resourceId: action.payload.id
+			};
+		case SET_INITIALIZED:
+			return {
+				...state,
+				initialized: true
 			};
 		case LIST_RESOURCE_BEGIN:
 		case FETCH_RESOURCE_BEGIN:
@@ -60,9 +68,6 @@ export default (state = initialState, action)  => {
 				...state,
 				path: action.payload.path,
 				loaded: false,
-				data: {},
-				list:[],
-				error: {}
 			};
 		case LIST_RESOURCE_SUCCESS:
 		case FETCH_RESOURCE_SUCCESS:
@@ -89,9 +94,6 @@ export default (state = initialState, action)  => {
 				...state,
 				path: action.payload.path,
 				error: action.payload.error,
-				data: {},
-				list:[],
-				meta: {},
 				loaded: true
 			};
 		default:

@@ -1,19 +1,11 @@
 const navOptions = [
 	{
-		path:"overview",
-		text: "Overview",
-	},
-	{
 		path:"rules",
 		text: "Rules",
 	},
 	{
-		path:"dataElements",
+		path:"data_elements",
 		text: "Data Elements",
-	},
-	{
-		path:"extensions/installed",
-		text: "Extensions",
 	},
 	{
 		path:"hosts",
@@ -24,16 +16,8 @@ const navOptions = [
 		text: "Environments",
 	},
 	{
-		path:"publishing",
-		text: "Publishing",
-	},
-	{
 		path:"callbacks",
 		text: "Callbacks",
-	},
-	{
-		path:"auditEvents",
-		text: "Audit Events",
 	}
 ];
 

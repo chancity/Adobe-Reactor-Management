@@ -14,17 +14,27 @@ const Sidebar = ({ navOpen, isMobile, setNavOpen, companyId, propertyId }) => {
 	};
 
 	return (
-		<Menu style={display ? { transform:"translateX(0rem)" } : undefined}>
+		<Menu style={display ? { transform:"translateX(0rem)" } : undefined }>
 			<MenuInner>
-				{navOptions.map((value, index)=>(
-					<Section key={index}>
+				{propertyId ?
+						navOptions.map((value, index) => (
+							<Section key={index}>
+								<SectionTitle>
+									<StyledLink to={`/properties/${propertyId}/${value.path}`}
+									            onClick={toggle} exact activeClassName="navActive">
+										{value.text}
+									</StyledLink>
+								</SectionTitle>
+							</Section>
+						))
+
+					:
+					<Section>
 						<SectionTitle>
-							<StyledLink to={`/companies/${companyId}/properties/${propertyId}/${value.path}`} onClick={toggle} exact activeClassName="navActive">
-								{value.text}
-							</StyledLink>
+							Select property
 						</SectionTitle>
 					</Section>
-				))}
+				}
 			</MenuInner>
 		</Menu>
 	);
