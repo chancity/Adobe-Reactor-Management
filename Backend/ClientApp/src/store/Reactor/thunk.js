@@ -18,7 +18,7 @@ import {
 	deleteResourceSuccessAction,
 	deleteResourceErrorAction,
 	setInitializedAction,
-	setCompanyIdAction
+	setCompanyIdAction, setPropertyIdAction
 } from "./actions";
 
 import history from "../../app/History";
@@ -29,37 +29,40 @@ import {
 	patch,
 	del
 } from "../../helpers/betterFetch";
+import {PathHandler} from "./PathHandler";
 
-export const initialize = () => async (dispatch, getState) => {
+export const initialize = (path) => async (dispatch, getState) => {
 	const initializePath = "/companies";
-	dispatch(listResourceBeginAction(initializePath));
+	const pathHandler = new PathHandler(path);
 	let response = null;
 	try {
 		response = await get(initializePath);
+
 		const {parsedBody} = response;
 		const {attributes, id} = parsedBody.data[0];
 
-
 		dispatch(setInitializedAction());
 		dispatch(setCompanyIdAction(id, attributes.name));
-
-		dispatch(listResourceSuccessAction(initializePath, [],{}));
-		history.push(`/companies/${id}/properties`)
+		pathHandler.parts.length >= 4 && dispatch(setPropertyIdAction(pathHandler.parts[3]));
+		//dispatch(listResourceSuccessAction(initializePath, [],{}));
+		pathHandler.parts.length <= 2 && history.push(`/companies/${id}/properties`)
 	} catch (e) {
 		dispatch(listResourceErrorAction(initializePath, e));
 	}
 };
 
 export const listResource = (path) => async (dispatch, getState) => {
-	dispatch(listResourceBeginAction(path));
+	const pathHandler = new PathHandler(path);
+	pathHandler.parts.length < 4 && dispatch(setPropertyIdAction(undefined));
+	dispatch(listResourceBeginAction(pathHandler.resourceUri));
 	let response = null;
 	try {
-		response = await get(path + "?page[size]=10");
+		response = await get(pathHandler.resourceUri + "?page[size]=10");
 		const {parsedBody} = response;
 
-		dispatch(listResourceSuccessAction(path, parsedBody.data, parsedBody.meta));
+		dispatch(listResourceSuccessAction(pathHandler.resourceUri, parsedBody.data, parsedBody.meta));
 	} catch (e) {
-		dispatch(listResourceErrorAction(path, e));
+		dispatch(listResourceErrorAction(pathHandler.resourceUri, e));
 	}
 };
 

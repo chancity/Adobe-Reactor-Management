@@ -29,30 +29,44 @@ export const Table = styled.table`
 		    padding-bottom:  .5em;
 	    }
 	}
-	td, th{
-		padding-left: 1em;
-	}
 	>thead > tr > th {
-	    padding-top: 1em;
-	    padding-bottom: 1em;
+	    box-sizing: border-box;
+	    text-align: left;
+	    font-size: 11px;
+	    font-weight: 700;
+	    line-height: 1.3;
+	    min-height: 12px;
+	    letter-spacing: 0.06em;
+	    text-transform: uppercase;
+	    padding: 10px 16px;
+	    transition: color 130ms ease-in-out;
+	    cursor: default;
+	    outline: 0;
+	    border-radius: 0;
 	   	border-bottom: #292b2f 2px solid;
     }
     > tbody > tr > td {
-	    padding-top: 1em;
-	    padding-bottom: 1em;
+	    box-sizing: border-box;
+	    font-size: 14px;
+	    font-weight: 400;
+	    line-height: 1.5;
+	    min-height: 20px;
+        word-wrap: break-word !important;
+     	padding: 15px 16px 14px 16px;
         border-top: #292b2f 1px solid;
     }
 	>tbody>tr:first-of-type>td {
 	    border-top: unset;
     }
     > tbody > tr {
-       animation:  1s ${fadeIn}  ease-in-out;   
+       animation:  .25s ${fadeIn}  ease-in-out;   
     }
     tr{
         margin: 0!important;
     }
 
     >tbody>tr{  
+    	cursor: pointer;
     	:hover {
     		background-color: rgba(20,20,20,0.1);
     	}	

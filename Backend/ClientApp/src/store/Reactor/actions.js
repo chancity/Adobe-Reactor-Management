@@ -39,7 +39,7 @@ const setPropertyIdAction = (id) => ({
 	}
 });
 
-const setResourceId = (id) => ({
+const setResourceIdAction = (id) => ({
 	type: SET_RESOURCE_ID,
 	payload:{
 		id: id
@@ -193,7 +193,7 @@ const deleteResourceErrorAction = (path, error) => ({
 export {
 	setCompanyIdAction,
 	setPropertyIdAction,
-	setResourceId,
+	setResourceIdAction,
 	setInitializedAction,
 	listResourceBeginAction,
 	listResourceSuccessAction,

@@ -8,8 +8,9 @@ export const Panel = styled.div`
 	font-size: 14px;
 	padding: 5px 10px;
 	border-radius: .5em;
-    box-shadow: 3px 3px 3px 3px  rgba(0,0,0,.2), 4.5px 4.5px 4.5px 4.5px rgba(0,0,0,.05), 6px 6px 6px 6px rgba(0,0,0,.05);
+    box-shadow: 1px 1px 1px 1px rgba(0,0,0,.2), 2.5px 2.5px 2.5px 2.5px rgba(0,0,0,.05), 4px 4px 4px 4px rgba(0,0,0,.05);
     transition: all .2s;
+    overflow: auto;
 `;
 
 export const PanelHeader = styled.div`

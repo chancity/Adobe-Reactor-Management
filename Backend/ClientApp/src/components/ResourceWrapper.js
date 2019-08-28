@@ -9,7 +9,7 @@ const ResourceWrapper = ({location, listResource, initialize, initialized}) => {
 				listResource(location.pathname);
 			}
 		} else {
-			initialize();
+			initialize(location.pathname);
 		}
 	}, [listResource, initialize, initialized, location.pathname]);
 

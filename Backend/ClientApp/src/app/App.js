@@ -9,6 +9,8 @@ import {NavMenu} from "../layout/Header/NavMenu";
 import AppParent from "../store/UI/containers/AppParent";
 import ResourceWrapper from "../store/Reactor/containers/ResourceWrapper";
 import history from "./History";
+import {IntlProvider} from "react-intl";
+import formats from '../dateTimeFormats'
 
 const store = AppStore;
 
@@ -28,6 +30,7 @@ function App() {
     }, [setMobile, isMobile]);
 
     return (
+        <IntlProvider locale={'en'} formats={formats} >
         <Provider store={store}>
             <AppParent isMobile={isMobile}>
             <Router history={history}>
@@ -39,6 +42,7 @@ function App() {
               </Router>
             </AppParent>
         </Provider>
+        </IntlProvider>
     );
 }
 

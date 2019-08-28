@@ -57,7 +57,10 @@ svg {
     background-repeat: no-repeat;
     box-sizing: border-box;
 }
-
+* {
+    margin: 0;
+    padding: 0;
+}
 button, input, select {
     margin: 0;
 }
