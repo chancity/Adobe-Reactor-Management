@@ -17,6 +17,7 @@ namespace Backend
             return WebHost.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration(ConfigureDelegate)
                 .ConfigureLogging(ConfigureLogging)
+                .UseUrls("http://*:5000")
                 .UseStartup<Startup>();
         }
 
