@@ -91,7 +91,7 @@ export const Checkbox = () => {
 
 	return (
 	<SCheckboxWrapper onClick={toggle} checked={checked}>
-		<SCheckboxInput/>
+		<SCheckboxInput autoComplete={"nope"} type={"text"}/>
 		<SCheckbox checked={checked}>
 			<SCheckSvg checked={checked}/>
 		</SCheckbox>

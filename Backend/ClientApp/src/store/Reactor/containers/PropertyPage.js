@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
-import PropertiesPageC from "../../../pages/PropertiesPage";
-import {setPropertyIdAction, setResourceIdAction} from "../actions";
+import PropertiesPageC from "../../../pages/PropertiesPage/PropertiesPage";
+import {setPropertyIdAction} from "../actions";
 
 const mapStateToProps = (state)=> {
 	return {
@@ -9,6 +9,7 @@ const mapStateToProps = (state)=> {
 		loaded: state.Reactor.loaded,
 		companyId: state.Reactor.companyId,
 		propertyId: state.Reactor.propertyId,
+		path: state.Reactor.path,
 		companyName: state.Reactor.companyName
 	}
 };

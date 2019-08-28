@@ -1,32 +1,19 @@
 import React from "react";
-import {Title} from "../layout/Title";
-import {Panel, PanelHeader} from "../layout/Panel";
-import {Loader} from "../layout/Loader";
-import {PropertiesTable} from "../components/Tables/PropertiesTable";
-import {SButton, SButtonLabel, SEndWrapper, SResourceControls, SStartWrapper} from "../layout/SResourceControls";
+import {Title} from "../../layout/Title";
+import {Panel, PanelHeader} from "../../layout/Panel";
+import {Loader} from "../../layout/Loader";
+import {PropertiesTable} from "../../components/Tables/PropertiesTable";
+import {SButton, SButtonLabel, SEndWrapper, SResourceControls, SStartWrapper} from "../../layout/SResourceControls";
+import {formatType, maskStr, removePlural} from "../utils";
 
-const capitalizeFirstLetter = (str) => {
-	return str.charAt(0).toUpperCase() + str.slice(1)
-};
-const formatType = (str) => {
-	const splitType = str.toLowerCase().split('_').map(value => capitalizeFirstLetter(value));
-	return splitType.join(' ');
-};
+const PropertiesPage = ({path, list, meta, loaded, companyId, propertyId, companyName, setPropertyIdAction}) => {
+	const [type, setType] = React.useState("");
 
-const removePlural = (str) => {
-	let ret = str;
-	if (str.toLowerCase().charAt(str.length - 1) === 's') {
-		ret = ret.substr(0, str.length - 1);
-	}
-	return ret;
-};
+	React.useEffect(() => {
+		const pathSplit = path.split('/');
+		setType(pathSplit[pathSplit.length-1]);
+	}, [path]);
 
-export const maskStr = (str) => {
-	return str;
-	return str.length > 0 ? str.replace(str.substring(2,str.length-2), '*'.repeat(str.length-4)) : str;
-};
-const PropertiesPage = ({list, meta, loaded, companyId, propertyId, companyName, setPropertyIdAction}) => {
-	const type = list[0] && list[0].type;
 	return (
 		<>
 			<Title>
@@ -36,14 +23,14 @@ const PropertiesPage = ({list, meta, loaded, companyId, propertyId, companyName,
 				{loaded ?
 					<>
 						<PanelHeader>
-							<span>{type && formatType(type)}</span>
+							<span>{formatType(type)}</span>
 						</PanelHeader>
 						<SResourceControls>
 							<SStartWrapper/>
 							<SEndWrapper>
-								<SButton>
+								<SButton to={`${path}/new`}>
 									<SButtonLabel>
-										{type && `Add ${removePlural(formatType(type))}`}
+										{`Add ${removePlural(formatType(type))}`}
 									</SButtonLabel>
 								</SButton>
 							</SEndWrapper>

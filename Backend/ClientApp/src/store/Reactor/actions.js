@@ -32,17 +32,19 @@ const setCompanyIdAction = (id, name) => ({
 	}
 });
 
-const setPropertyIdAction = (id) => ({
+const setPropertyIdAction = (id, name) => ({
 	type: SET_PROPERTY_ID,
 	payload:{
-		id: id
+		id: id,
+		name: name
 	}
 });
 
-const setResourceIdAction = (id) => ({
+const setResourceIdAction = (id, name) => ({
 	type: SET_RESOURCE_ID,
 	payload:{
-		id: id
+		id: id,
+		type: name
 	}
 });
 
@@ -57,11 +59,13 @@ const listResourceBeginAction = (path) => ({
 	}
 });
 
-const listResourceSuccessAction = (path, data, meta) => ({
+const listResourceSuccessAction = (path, data, list, map, meta) => ({
 	type: LIST_RESOURCE_SUCCESS,
 	payload:{
 		path: path,
 		data: data,
+		list: list,
+		map: map,
 		meta: meta
 	}
 });
@@ -79,11 +83,13 @@ const fetchResourceBeginAction = (path) => ({
 	}
 });
 
-const fetchResourceSuccessAction = (path, data, meta) => ({
+const fetchResourceSuccessAction = (path, data, list, map, meta) => ({
 	type: FETCH_RESOURCE_SUCCESS,
 	payload:{
 		path: path,
 		data: data,
+		list: list,
+		map: map,
 		meta: meta
 	}
 });
@@ -102,11 +108,13 @@ const createResourceBeginAction = (path) => ({
 	}
 });
 
-const createResourceSuccessAction =  (path, data, meta)=> ({
+const createResourceSuccessAction =  (path, data, list, map, meta)=> ({
 	type: CREATE_RESOURCE_SUCCESS,
 	payload:{
 		path: path,
 		data: data,
+		list: list,
+		map: map,
 		meta: meta
 	}
 });
@@ -125,11 +133,13 @@ const updateResourceBeginAction = (path) => ({
 	}
 });
 
-const updateResourceSuccessAction =  (path, data, meta) => ({
+const updateResourceSuccessAction =  (path, data, list, map, meta) => ({
 	type: UPDATE_RESOURCE_SUCCESS,
 	payload:{
 		path: path,
 		data: data,
+		list: list,
+		map: map,
 		meta: meta
 	}
 });
@@ -149,11 +159,13 @@ const reviseResourceBeginAction = (path) => ({
 	}
 });
 
-const reviseResourceSuccessAction = (path, data, meta) => ({
+const reviseResourceSuccessAction = (path, data, list, map, meta) => ({
 	type: REVISE_RESOURCE_SUCCESS,
 	payload:{
 		path: path,
 		data: data,
+		list: list,
+		map: map,
 		meta: meta
 	}
 });
@@ -173,11 +185,13 @@ const deleteResourceBeginAction = (path) => ({
 	}
 });
 
-const deleteResourceSuccessAction =  (path, data, meta)=> ({
+const deleteResourceSuccessAction =  (path, data, list, map, meta)=> ({
 	type: DELETE_RESOURCE_SUCCESS,
 	payload:{
 		path: path,
 		data: data,
+		list: list,
+		map: map,
 		meta: meta
 	}
 });

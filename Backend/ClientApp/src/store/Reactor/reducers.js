@@ -27,11 +27,15 @@ const initialState = {
 	initialized: false,
 	loaded: false,
 	companyId: undefined,
+	companyName: undefined,
 	propertyId: undefined,
+	propertyName: undefined,
 	resourceId: undefined,
-	path: "/companies",
+	resourceType: undefined,
+	path: window.location.pathname,
 	data: {},
 	list: [],
+	map: {},
 	meta: {}
 };
 
@@ -47,11 +51,13 @@ export default (state = initialState, action)  => {
 			return {
 				...state,
 				propertyId: action.payload.id,
+				propertyName: action.payload.name
 			};
 		case SET_RESOURCE_ID:
 			return {
 				...state,
-				resourceId: action.payload.id
+				resourceId: action.payload.id,
+				resourceName: action.payload.name
 			};
 		case SET_INITIALIZED:
 			return {
@@ -75,15 +81,13 @@ export default (state = initialState, action)  => {
 		case UPDATE_RESOURCE_SUCCESS:
 		case REVISE_RESOURCE_SUCCESS:
 		case DELETE_RESOURCE_SUCCESS:
-			return {
+			const newState = {
 				...state,
-				path: action.payload.path,
-				data: !Array.isArray(action.payload.data) ? action.payload.data : state.data,
-				list: Array.isArray(action.payload.data) ? action.payload.data : state.list,
-				meta: action.payload.meta,
 				error: {},
-				loaded: true
+				loaded: true,
+				...action.payload,
 			};
+			return newState;
 		case LIST_RESOURCE_ERROR:
 		case FETCH_RESOURCE_ERROR:
 		case CREATE_RESOURCE_ERROR:
