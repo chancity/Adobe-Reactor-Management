@@ -30,6 +30,7 @@ const initialState = {
 	companyName: undefined,
 	propertyId: undefined,
 	propertyName: undefined,
+	propertyPlatform: undefined,
 	resourceId: undefined,
 	resourceType: undefined,
 	path: window.location.pathname,
@@ -51,7 +52,8 @@ export default (state = initialState, action)  => {
 			return {
 				...state,
 				propertyId: action.payload.id,
-				propertyName: action.payload.name
+				propertyName: action.payload.name,
+				propertyPlatform: action.payload.platform
 			};
 		case SET_RESOURCE_ID:
 			return {

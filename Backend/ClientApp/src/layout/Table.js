@@ -47,7 +47,7 @@ export const Table = styled.table`
     }
     > tbody > tr > td {
 	    box-sizing: border-box;
-	    font-size: 14px;
+	    font-size: 15px;
 	    font-weight: 400;
 	    line-height: 1.5;
 	    min-height: 20px;
@@ -77,7 +77,7 @@ export const NavLink = styled(Link)`
 	color: ${props => props.color || "rgb(147,107,251)"};
 	cursor:pointer;
 	:hover{
-		color: rgb(91, 60, 171) !important;
+		color: rgb(151,107,255);
 		text-decoration: underline;
 	}
 `;

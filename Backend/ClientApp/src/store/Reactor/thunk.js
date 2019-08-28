@@ -32,19 +32,30 @@ import {
 import {PathHandler} from "./PathHandler";
 
 export const initialize = (path) => async (dispatch, getState) => {
-	const initializePath = "/companies";
+	const initializeCompaniesPath = "/companies";
+
 	const pathHandler = new PathHandler(path);
 	let response = null;
 	try {
-		response = await get(initializePath);
-		const {parsedBody} = response;
-		const {attributes, id} = parsedBody.data[0];
+		response = await get(initializeCompaniesPath);
+		const companyData = response.parsedBody.data[0];
+
 		dispatch(setInitializedAction());
-		dispatch(setCompanyIdAction(id, attributes.name));
-		pathHandler.parts.length >= 4 && dispatch(setPropertyIdAction(pathHandler.parts[3]));
-		pathHandler.parts.length <= 2 && history.push(`/companies/${id}/properties`)
+		dispatch(setCompanyIdAction(companyData.id, companyData.attributes.name));
+
+		if(pathHandler.parts.length >= 4) {
+			const propertyId = pathHandler.parts[3];
+			const initializePropertyPath = `/properties/${propertyId}`;
+			response = await get(initializePropertyPath);
+			const propertyData = response.parsedBody.data;
+			dispatch(setPropertyIdAction(propertyData.id, propertyData.attributes.name, propertyData.attributes.platform));
+
+		} else if (pathHandler.parts.length <= 2 ) {
+			history.push(`/companies/${companyData.id}/properties`)
+		}
+
 	} catch (e) {
-		dispatch(listResourceErrorAction(initializePath, e));
+		dispatch(listResourceErrorAction(initializeCompaniesPath, e));
 	}
 };
 

@@ -4,40 +4,38 @@ import {withRouter} from "react-router-dom";
 import navOptions from "./NavOptions";
 
 
+const Sidebar = ({navOpen, isMobile, setNavOpen, companyId, propertyId}) => {
+    const display = navOpen && isMobile;
 
-const Sidebar = ({ navOpen, isMobile, setNavOpen, companyId, propertyId }) => {
-	const display = navOpen && isMobile;
+    const toggle = () => {
+        if (isMobile)
+            setNavOpen();
+    };
 
-	const toggle = ()=>{
-		if(isMobile)
-			setNavOpen();
-	};
-
-	return (
-		<Menu style={display ? { transform:"translateX(0rem)" } : undefined }>
-			<MenuInner>
-				{propertyId ?
-						navOptions.map((value, index) => (
-							<Section key={index}>
+    return (
+        <Menu style={display ? {transform: "translateX(0rem)"} : undefined}>
+            <MenuInner>
+                {propertyId ?
+                    navOptions.map((value, index) => (
+						<StyledLink key={index} to={`/companies/${companyId}/properties/${propertyId}/${value.path}`} onClick={toggle} exact activeClassName="navActive">
+							<Section>
 								<SectionTitle>
-									<StyledLink to={`/companies/${companyId}/properties/${propertyId}/${value.path}`}
-									            onClick={toggle} exact activeClassName="navActive">
-										{value.text}
-									</StyledLink>
+									{value.text}
 								</SectionTitle>
 							</Section>
-						))
+						</StyledLink>
+                    ))
 
-					:
-					<Section>
-						<SectionTitle>
-							Select property
-						</SectionTitle>
-					</Section>
-				}
-			</MenuInner>
-		</Menu>
-	);
+                    :
+                    <Section>
+                        <SectionTitle>
+                            Select property
+                        </SectionTitle>
+                    </Section>
+                }
+            </MenuInner>
+        </Menu>
+    );
 };
 
 export default withRouter(Sidebar);

@@ -4,10 +4,10 @@ import {Router} from "react-router";
 import {Provider} from "react-redux";
 import AppStore from "../store";
 import {setIsMobile} from "../store/UI/actions";
+import {initialize} from "../store/Reactor/thunk";
 import AppBody from "../store/UI/containers/AppBody";
 import {NavMenu} from "../layout/Header/NavMenu";
 import AppParent from "../store/UI/containers/AppParent";
-import ResourceWrapper from "../store/Reactor/containers/ResourceWrapper";
 import history from "./History";
 import {IntlProvider} from "react-intl";
 import formats from '../dateTimeFormats'
@@ -16,7 +16,9 @@ const store = AppStore;
 
 function App() {
     const [isMobile, setMobile] = React.useState(window.innerWidth <= 1000);
-
+    React.useEffect(() =>{
+        store.dispatch(initialize(window.location.pathname))
+    }, []);
     React.useEffect(() => {
         store.dispatch(setIsMobile(isMobile));
     }, [isMobile]);
@@ -31,17 +33,16 @@ function App() {
 
     return (
         <IntlProvider locale={'en'} formats={formats} >
-        <Provider store={store}>
-            <AppParent isMobile={isMobile}>
-            <Router history={history}>
-                <NavMenu/>
-                <AppBody isMobile={isMobile}>
-                 <ResourceWrapper/>
-                  <Routes/>
-                </AppBody>
-              </Router>
-            </AppParent>
-        </Provider>
+            <Provider store={store}>
+                <AppParent isMobile={isMobile}>
+                <Router history={history}>
+                    <NavMenu/>
+                    <AppBody isMobile={isMobile}>
+                      <Routes/>
+                    </AppBody>
+                  </Router>
+                </AppParent>
+            </Provider>
         </IntlProvider>
     );
 }

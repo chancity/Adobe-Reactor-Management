@@ -3,7 +3,7 @@ import React from 'react';
 import {Logo} from "../Logo";
 import {SocialLinks} from "./SocialLinks";
 import Search from "../../store/UI/containers/Search";
-import NavLinks from "../../store/UI/containers/NavLinks";
+import NavLinks from "./NavLinks";
 
 
 

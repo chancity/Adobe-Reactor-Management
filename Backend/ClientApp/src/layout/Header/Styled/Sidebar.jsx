@@ -45,10 +45,11 @@ export const SectionTitle = styled.h4`
 
 export const StyledLink = styled(NavLink)`
     display: inline-block;
+    width: 100%;
     color: inherit;
     cursor: pointer;
     padding: 0.111111rem 0.444444rem;
-    margin: -0.111111rem -0.444444rem;
+   // margin: -0.111111rem -0.444444rem;
     
     :hover {
     	background: rgba(185, 187, 190, 0.1);

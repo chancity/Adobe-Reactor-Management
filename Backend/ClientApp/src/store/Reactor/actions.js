@@ -32,11 +32,12 @@ const setCompanyIdAction = (id, name) => ({
 	}
 });
 
-const setPropertyIdAction = (id, name) => ({
+const setPropertyIdAction = (id, name, platform) => ({
 	type: SET_PROPERTY_ID,
 	payload:{
 		id: id,
-		name: name
+		name: name,
+		platform: platform
 	}
 });
 

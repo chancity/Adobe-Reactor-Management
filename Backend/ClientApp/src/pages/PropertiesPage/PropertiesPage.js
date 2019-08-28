@@ -1,12 +1,13 @@
 import React from "react";
-import {Title} from "../../layout/Title";
 import {Panel, PanelHeader} from "../../layout/Panel";
 import {Loader} from "../../layout/Loader";
 import {PropertiesTable} from "../../components/Tables/PropertiesTable";
 import {SButton, SButtonLabel, SEndWrapper, SResourceControls, SStartWrapper} from "../../layout/SResourceControls";
-import {formatType, maskStr, removePlural} from "../utils";
+import {formatType, removePlural} from "../utils";
+import LaunchLayout from "../../store/Reactor/containers/LaunchLayout";
+import ResourceWrapper from "../../store/Reactor/containers/ResourceWrapper";
 
-const PropertiesPage = ({path, list, meta, loaded, companyId, propertyId, companyName, setPropertyIdAction}) => {
+const PropertiesPage = ({path, list, meta, loaded, companyId, propertyId, setPropertyIdAction}) => {
 	const [type, setType] = React.useState("");
 
 	React.useEffect(() => {
@@ -15,10 +16,8 @@ const PropertiesPage = ({path, list, meta, loaded, companyId, propertyId, compan
 	}, [path]);
 
 	return (
-		<>
-			<Title>
-				{maskStr(companyName || "")}
-			</Title>
+		<LaunchLayout>
+			<ResourceWrapper/>
 			<Panel style={{minHeight:'666px', justifyContent: (loaded ? undefined : 'center')}}>
 				{loaded ?
 					<>
@@ -41,7 +40,7 @@ const PropertiesPage = ({path, list, meta, loaded, companyId, propertyId, compan
 					<Loader/>
 					}
 			</Panel>
-		</>
+		</LaunchLayout>
 	)
 };
 

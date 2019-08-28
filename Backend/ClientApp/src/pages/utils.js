@@ -8,8 +8,12 @@ export const formatType = (str) => {
 
 export const removePlural = (str) => {
     let ret = str;
-    if (str.toLowerCase().charAt(str.length - 1) === 's') {
+    if (str.toLowerCase().endsWith('s')) {
         ret = ret.substr(0, str.length - 1);
+    }
+
+    if (str.toLowerCase().endsWith('ies')) {
+        ret = ret.substr(0, str.length - 3) + 'y';
     }
     return ret;
 };

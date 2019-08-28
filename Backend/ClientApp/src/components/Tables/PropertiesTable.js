@@ -53,8 +53,8 @@ const Date = ({date}) => (
 
 export const PropertiesTable = ({list, propertyId, companyId, setPropertyIdAction}) => {
 
-    const setPropertyId = (name, id) => {
-        setPropertyIdAction(name, id)
+    const setPropertyId = (id, name, platform) => {
+        setPropertyIdAction(id, name, platform)
     };
 
     return (
@@ -69,7 +69,7 @@ export const PropertiesTable = ({list, propertyId, companyId, setPropertyIdActio
 	                Name
 	            </span>
                 </th>
-                <th style={{width: '185px'}}>
+                <th style={{width: '195px'}}>
 	            <span>
 	                Last Modified
 	            </span>
@@ -100,7 +100,7 @@ export const PropertiesTable = ({list, propertyId, companyId, setPropertyIdActio
                                 <Checkbox/>
                             </td>
                             <td>
-                                <NavLink to={path} onClick={isProperties ? () => setPropertyId(value.attributes.name, value.id) : undefined}>{maskStr(value.attributes.name)}</NavLink>
+                                <NavLink to={path} onClick={isProperties ? () => setPropertyId(value.id, value.attributes.name, value.attributes.platform) : undefined}>{maskStr(value.attributes.name)}</NavLink>
                             </td>
                             <td>
                                 <Date date={value.attributes.updated_at}/>
