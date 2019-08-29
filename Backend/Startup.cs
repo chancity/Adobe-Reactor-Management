@@ -98,9 +98,7 @@ namespace Backend
 
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-
-            app.UseSession();
-
+            
             app.UseCors(Defaults.ALL_CORS_POLICY);
             app.UseMvc(routes =>
             {
@@ -125,11 +123,6 @@ namespace Backend
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
-        }
-
-        private async Task Callback(object state)
-        {
-            var context = (HttpContext) state;
         }
     }
 }
