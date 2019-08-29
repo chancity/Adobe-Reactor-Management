@@ -59,5 +59,14 @@
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </ResolvedFileToPublish>
     </ItemGroup>
-  </Target>  
+
+    <ItemGroup>
+      <DistFiles Include="$(SpaRoot)build-ssr\**" Exclude="$(SpaSrc)" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish);">
+        <RelativePath>ClientApp\build-ssr\%(DistFiles.RecursiveDir)%(DistFiles.FileName)%(DistFiles.Extension)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
+
 </Project>

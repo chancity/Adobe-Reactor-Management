@@ -36,32 +36,33 @@ const SCheckbox = styled.span`
     transition: border 130ms ease-in-out, box-shadow 130ms ease-in-out;
     
     ${p => p.checked && `
-         border-color: #936BFB;
+         border-color: #157d64;
          border-width: 7px;
     `}
 `;
 
-const SCheckSvg = styled(CheckSvg)`
-	height: 10px;
-	width: 10px;
-	position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -5px;
-    margin-left: -5px;
-    opacity: 0;
-    transform: scale(0);
-    transition: opacity 130ms ease-in-out, transform 130ms ease-in-out;
-    display: inline-block;
-    color: inherit;
-    fill: #dcddde;
-    pointer-events: none;
-    
-    ${p => p.checked && `
-        transform: scale(1);
-        opacity: 1;
-    `}
-`;
+const CheckSvgStyle = {
+	height: '10px',
+	width: '10px',
+	position: 'absolute',
+	top: '50%',
+	left: '50%',
+	marginTop: '-5px',
+	marginLeft: '-5px',
+	opacity: '0',
+	transform: 'scale(0)',
+	transition: 'opacity 130ms ease-in-out, transform 130ms ease-in-out',
+	display: 'inline-block',
+	color: 'inherit',
+	fill: '#dcddde',
+	pointerEvents: 'none'
+};
+
+const CheckedSvgStyle = {
+	transform: 'scale(1)',
+	opacity: '1'
+};
+
 
 const SCheckboxWrapper = styled.div`
 	margin: 6px 5px 5px 5px;
@@ -93,7 +94,7 @@ export const Checkbox = () => {
 	<SCheckboxWrapper onClick={toggle} checked={checked}>
 		<SCheckboxInput autoComplete={"nope"} type={"text"}/>
 		<SCheckbox checked={checked}>
-			<SCheckSvg checked={checked}/>
+			<CheckSvg style={!checked ? CheckSvgStyle : {...CheckSvgStyle, ...CheckedSvgStyle}} checked={checked}/>
 		</SCheckbox>
 	</SCheckboxWrapper>
 	)

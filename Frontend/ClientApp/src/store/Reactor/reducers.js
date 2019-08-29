@@ -33,7 +33,7 @@ const initialState = {
 	propertyPlatform: undefined,
 	resourceId: undefined,
 	resourceType: undefined,
-	path: window.location.pathname,
+	path: (typeof window !== 'undefined') ? window.location.pathname : '/',
 	data: {},
 	list: [],
 	map: {},
@@ -83,13 +83,12 @@ export default (state = initialState, action)  => {
 		case UPDATE_RESOURCE_SUCCESS:
 		case REVISE_RESOURCE_SUCCESS:
 		case DELETE_RESOURCE_SUCCESS:
-			const newState = {
+			return {
 				...state,
 				error: {},
 				loaded: true,
 				...action.payload,
 			};
-			return newState;
 		case LIST_RESOURCE_ERROR:
 		case FETCH_RESOURCE_ERROR:
 		case CREATE_RESOURCE_ERROR:

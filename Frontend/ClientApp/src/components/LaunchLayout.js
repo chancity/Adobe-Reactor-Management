@@ -4,7 +4,7 @@ import LaunchLayoutHeader from "../store/Reactor/containers/LaunchLayoutHeader";
 
 
 
-const LaunchLayout = ({children, initialized}) => {
+export const LaunchLayout = ({children, initialized}) => {
     return (
       <>
           {initialized &&
@@ -16,4 +16,3 @@ const LaunchLayout = ({children, initialized}) => {
       </>)
 };
 
-export default LaunchLayout;

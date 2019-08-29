@@ -1,50 +1,34 @@
 import React from 'react';
 import Routes from "./Routes";
-import {Router} from "react-router";
-import {Provider} from "react-redux";
-import AppStore from "../store";
-import {setIsMobile} from "../store/UI/actions";
-import {initialize} from "../store/Reactor/thunk";
-import AppBody from "../store/UI/containers/AppBody";
+//import {setIsMobile} from "../store/UI/actions";
+//import {initialize} from "../store/Reactor/thunk";
+import {AppBodyContainer} from "../store/UI/containers/AppBodyContainer";
 import {NavMenu} from "../layout/Header/NavMenu";
-import AppParent from "../store/UI/containers/AppParent";
-import history from "./History";
-import {IntlProvider} from "react-intl";
-import formats from '../dateTimeFormats'
+import {AppParentContainer} from "../store/UI/containers/AppContainer";
 
-const store = AppStore;
 
-function App() {
-    const [isMobile, setMobile] = React.useState(window.innerWidth <= 1000);
-    React.useEffect(() =>{
-        store.dispatch(initialize(window.location.pathname))
-    }, []);
-    React.useEffect(() => {
-        store.dispatch(setIsMobile(isMobile));
-    }, [isMobile]);
 
-    React.useEffect(() => {
-        window.addEventListener("resize", () => {
-            const current = window.innerWidth <= 1000;
-            if(current !== isMobile)
-                setMobile(current);
-        });
-    }, [setMobile, isMobile]);
+export const App = ({isMobile, initialize, setIsMobile}) => {
+	React.useEffect(() =>{
+		initialize(window.location.pathname);
+	}, [initialize]);
 
-    return (
-        <IntlProvider locale={'en'} formats={formats} >
-            <Provider store={store}>
-                <AppParent isMobile={isMobile}>
-                <Router history={history}>
-                    <NavMenu/>
-                    <AppBody isMobile={isMobile}>
-                      <Routes/>
-                    </AppBody>
-                  </Router>
-                </AppParent>
-            </Provider>
-        </IntlProvider>
-    );
+	React.useEffect(() => {
+		window.addEventListener("resize", () => {
+			const current = window.innerWidth <= 1000;
+			if(current !== isMobile)
+				setIsMobile(current);
+		});
+	}, [setIsMobile, isMobile]);
+
+	return (
+		<AppParentContainer isMobile={false}>
+			<NavMenu/>
+			<AppBodyContainer isMobile={false}>
+				<Routes/>
+			</AppBodyContainer>
+		</AppParentContainer>
+	);
 }
 
 export default App;

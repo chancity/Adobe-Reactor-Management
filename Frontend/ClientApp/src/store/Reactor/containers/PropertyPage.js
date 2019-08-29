@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import PropertiesPageC from "../../../pages/PropertiesPage/PropertiesPage";
+import {PropertiesPage as PropertiesPageC} from "../../../pages/PropertiesPage/PropertiesPage";
 import {setPropertyIdAction} from "../actions";
 
 const mapStateToProps = (state)=> {

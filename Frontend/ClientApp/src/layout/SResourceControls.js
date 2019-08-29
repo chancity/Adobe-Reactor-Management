@@ -1,5 +1,4 @@
 import styled from 'styled-components/macro'
-import React from "react";
 import {Link} from "react-router-dom";
 
 export const SResourceControls = styled.div`

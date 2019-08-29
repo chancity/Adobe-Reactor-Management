@@ -6,7 +6,7 @@ import { ReactComponent as SearchSvg } from '../../static/images/layout/menu-sea
 import React from "react";
 import {Logo} from "../Logo";
 import {SocialLinks} from "./SocialLinks";
-import NavLinksContainer from "../../store/UI/containers/NavLinksContainer";
+import {NavLinksContainer} from "../../store/UI/containers/NavLinksContainer";
 
 const OpenButtonStyle = {background: "#2f3136"};
 const arrowWrapperStyle = {transformOrigin: "center center",transform: "rotate(180deg)",transition: "transform 0.2s ease 0s"};

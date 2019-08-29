@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import SidebarC  from "../../../layout/Header/Sidebar";
+import SidebarC   from "../../../layout/Header/Sidebar";
 import {setNavOpen} from "../actions";
 
 const mapStateToProps = (state)=>({
@@ -9,6 +9,5 @@ const mapStateToProps = (state)=>({
 	propertyId: state.Reactor.propertyId,
 });
 
-const Sidebar = connect(mapStateToProps,{setNavOpen})(SidebarC);
-export default 	Sidebar;
+export const SidebarContainer = connect(mapStateToProps,{setNavOpen})(SidebarC);
 

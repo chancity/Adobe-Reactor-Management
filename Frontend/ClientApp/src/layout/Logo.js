@@ -1,17 +1,9 @@
-import styled, { keyframes } from 'styled-components/macro'
+import styled  from 'styled-components/macro'
 import React from "react";
 import {Link} from "react-router-dom";
 import LaunchLogo from '../static/images/launch.svg';
 
 
-const spin = keyframes`
-  0% {
-   	transform: scale(1);
-  }
-  100% {
-    transform: scale(1.1);;
-  }
-`;
 
 const LogoLink = styled(Link)`
     display: inline-block;

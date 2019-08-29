@@ -7,7 +7,7 @@ import {formatType, removePlural} from "../utils";
 import LaunchLayout from "../../store/Reactor/containers/LaunchLayout";
 import ResourceWrapper from "../../store/Reactor/containers/ResourceWrapper";
 
-const PropertiesPage = ({path, list, meta, loaded, companyId, propertyId, setPropertyIdAction}) => {
+export const PropertiesPage = ({path, list, meta, loaded, companyId, propertyId, setPropertyIdAction}) => {
 	const [type, setType] = React.useState("");
 
 	React.useEffect(() => {
@@ -43,5 +43,3 @@ const PropertiesPage = ({path, list, meta, loaded, companyId, propertyId, setPro
 		</LaunchLayout>
 	)
 };
-
-export default PropertiesPage

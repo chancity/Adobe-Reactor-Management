@@ -53,6 +53,12 @@ namespace Backend
                 configuration.RootPath = "ClientApp/build";
             });
 
+          // services.AddNodeServices(options =>
+          // {
+          //     options.ProjectPath = "../Frontend/ClientApp";
+          // });
+          // services.AddSpaPrerenderer();
+
             var accountOptions = new AccountOptions(
                 Configuration[Defaults.ORGANIZATION_ID],
                 Configuration[Defaults.TECHNICAL_ACCOUNT_ID],
@@ -94,18 +100,16 @@ namespace Backend
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
-
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
             
             app.UseCors(Defaults.ALL_CORS_POLICY);
             app.UseMvc(routes =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action}/{id?}"
-                );
+              // routes.MapRoute(
+              //     name: "default",
+              //     template: "{controller=Home}/{action=Index}/{id?}"
+              // );
 
                 routes.MapRoute(
                     name: "proxy",

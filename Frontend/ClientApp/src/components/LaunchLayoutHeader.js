@@ -4,7 +4,7 @@ import styled from "styled-components/macro";
 import {ReactComponent as WebSvg} from "../static/images/layout/platform-web.svg";
 import {ReactComponent as MobileSvg} from "../static/images/layout/platform-mobile.svg";
 import {ReactComponent as ChevronRightSvg} from "../static/images/layout/chevron-right.svg";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -58,25 +58,26 @@ const SSpanWrapper = styled.span`
     position: relative;
 `;
 
-const ChevronRight = styled(ChevronRightSvg)`
-    position: absolute;
-    top: calc(50% - 3px);
-    right: -19px;
-    width: 6px;
-    height: 8px;
-    transform: scale(1);
-    opacity: .5;
-`;
+const ChevronRightStyles = {
+    position: 'absolute',
+    top: 'calc(50% - 3px)',
+    right: '-19px',
+    width: '6px',
+    height: '8px',
+    transform: 'scale(1)',
+    opacity: '.5'
+};
 
 
-const LaunchLayoutHeader = ({companyName, companyId, propertyName, propertyPlatform}) => (
+
+export const LaunchLayoutHeader = ({companyName, companyId, propertyName, propertyPlatform}) => (
     <HeaderWrapper>
         <Title2>
             <SSpanWrapper>
                 <Link to={`/companies/${companyId}/properties`}>
                     {maskStr(companyName || "")}
                 </Link>
-                <ChevronRight/>
+                <ChevronRightSvg style={ChevronRightStyles}/>
             </SSpanWrapper>
         </Title2>
         {propertyName && <Title1>
@@ -93,5 +94,3 @@ const LaunchLayoutHeader = ({companyName, companyId, propertyName, propertyPlatf
         </Title1>}
     </HeaderWrapper>
 );
-
-export default LaunchLayoutHeader;

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import {Search as SearchC} from "../../../layout/Header/Search";
+import {Search} from "../../../layout/Header/Search";
 import {setSearchOpen} from "../actions";
 
 const mapStateToProps = (state)=>({
@@ -7,6 +7,5 @@ const mapStateToProps = (state)=>({
 	isMobile: state.UI.isMobile,
 });
 
-const Search = connect(mapStateToProps,{setSearchOpen})(SearchC);
-export default 	Search;
+export const SearchContainer = connect(mapStateToProps,{setSearchOpen})(Search);
 

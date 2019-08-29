@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import {MobileNav as MobileNavC} from "../../../layout/Header/MobileNav";
+import {MobileNav} from "../../../layout/Header/MobileNav";
 import {setNavOpen, setSearchOpen, setSecondaryNavOpen} from "../actions";
 
 const mapStateToProps = (state)=>({
@@ -8,6 +8,5 @@ const mapStateToProps = (state)=>({
 	secondaryNavOpen: state.UI.secondaryNavOpen,
 });
 
-const MobileNav = connect(mapStateToProps,{setNavOpen, setSecondaryNavOpen, setSearchOpen})(MobileNavC);
-export default 	MobileNav;
+export const MobileNavContainer = connect(mapStateToProps,{setNavOpen, setSecondaryNavOpen, setSearchOpen})(MobileNav);
 

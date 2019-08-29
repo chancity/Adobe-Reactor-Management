@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import LaunchLayoutHeaderC from "../../../components/LaunchLayoutHeader";
+import {LaunchLayoutHeader as LaunchLayoutHeaderC} from "../../../components/LaunchLayoutHeader";
 
 const mapStateToProps = (state)=> {
 	return {

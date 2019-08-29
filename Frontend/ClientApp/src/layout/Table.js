@@ -74,10 +74,10 @@ export const Table = styled.table`
 `;
 export const NavLink = styled(Link)`
 	transition: .2s;
-	color: ${props => props.color || "#dcddde"};
+	color: ${props => props.color || "#149E83"};
 	cursor:pointer;
 	:hover{
-		color: currentColor;
+		color: #157d64;
 		text-decoration: underline;
 	}
 `;

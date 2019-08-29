@@ -21,19 +21,21 @@ import {
 	setCompanyIdAction, setPropertyIdAction
 } from "./actions";
 
-import history from "../../app/History";
-
 import {
 	get,
 	post,
 	patch,
 	del
 } from "../../helpers/betterFetch";
+
+import { push } from 'connected-react-router'
+
 import {PathHandler} from "./PathHandler";
 
 export const initialize = (path) => async (dispatch, getState) => {
 	const initializeCompaniesPath = "/companies";
-
+	const state = getState();
+	console.log(state);
 	const pathHandler = new PathHandler(path);
 	let response = null;
 	try {
@@ -51,7 +53,7 @@ export const initialize = (path) => async (dispatch, getState) => {
 			dispatch(setPropertyIdAction(propertyData.id, propertyData.attributes.name, propertyData.attributes.platform));
 
 		} else if (pathHandler.parts.length <= 2 ) {
-			history.push(`/companies/${companyData.id}/properties`)
+			dispatch(push(`/companies/${companyData.id}/properties`))
 		}
 
 	} catch (e) {

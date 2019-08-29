@@ -20,5 +20,5 @@ export const removePlural = (str) => {
 
 export const maskStr = (str) => {
     return str;
-    return str.length > 0 ? str.replace(str.substring(2,str.length-2), '*'.repeat(str.length-4)) : str;
+   // return str.length > 0 ? str.replace(str.substring(2,str.length-2), '*'.repeat(str.length-4)) : str;
 };

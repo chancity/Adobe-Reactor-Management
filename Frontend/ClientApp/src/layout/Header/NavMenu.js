@@ -2,7 +2,7 @@ import {NavHeader, Wrapper,} from "./Styled/SNavbar";
 import React from 'react';
 import {Nav} from "./Nav";
 import {MobileNavContainer} from "../../store/UI/containers/MobileNavContainer";
-import Sidebar from "../../store/UI/containers/SidebarContainer";
+import {SidebarContainer} from "../../store/UI/containers/SidebarContainer";
 
 
 export const NavMenu = () => {
@@ -12,7 +12,7 @@ export const NavMenu = () => {
 				<Nav/>
 				<MobileNavContainer/>
 			</Wrapper>
-			<Sidebar/>
+			<SidebarContainer/>
 		</NavHeader>
 	);
 };
