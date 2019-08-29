@@ -5,8 +5,9 @@
 	<TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <IsPackable>false</IsPackable>
-    <SpaRoot>ClientApp\</SpaRoot>
-    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
+    <SpaSrc>..\Frontend\</SpaSrc>
+	<SpaRoot>$(SpaSrc)\ClientApp\</SpaRoot>
+    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**;</DefaultItemExcludes>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   
@@ -25,9 +26,9 @@
   
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
-    <Content Remove="$(SpaRoot)**" />
-    <None Remove="$(SpaRoot)**" />
-    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+    <Content Remove="$(SpaSrc)**" />
+    <None Remove="$(SpaSrc)**" />
+    <None Include="$(SpaSrc)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
   
   <ItemGroup>
@@ -52,12 +53,11 @@
 
     <!-- Include the newly-built files in the publish output -->
     <ItemGroup>
-      <DistFiles Include="$(SpaRoot)build\**" />
-      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
-        <RelativePath>%(DistFiles.Identity)</RelativePath>
+      <DistFiles Include="$(SpaRoot)build\**" Exclude="$(SpaSrc)" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish);">
+        <RelativePath>ClientApp\build\%(DistFiles.RecursiveDir)%(DistFiles.FileName)%(DistFiles.Extension)</RelativePath>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </ResolvedFileToPublish>
     </ItemGroup>
-  </Target>
-  
+  </Target>  
 </Project>

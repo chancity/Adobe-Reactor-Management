@@ -1,12 +1,18 @@
 ﻿using System;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
+using System.Threading.Tasks;
 using AdobeReactorApi;
+using Backend.Middleware;
 using Backend.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SpaServices;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -89,11 +95,13 @@ namespace Backend
             }
 
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
-            app.UseCors(Defaults.ALL_CORS_POLICY);
+            app.UseSession();
 
+            app.UseCors(Defaults.ALL_CORS_POLICY);
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -108,15 +116,20 @@ namespace Backend
                 );
             });
 
+            
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = "ClientApp";
-
+                spa.Options.SourcePath = "../Frontend/ClientApp";
                 if (env.IsDevelopment())
                 {
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
+        }
+
+        private async Task Callback(object state)
+        {
+            var context = (HttpContext) state;
         }
     }
 }

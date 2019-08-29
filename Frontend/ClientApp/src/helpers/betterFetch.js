@@ -1,4 +1,4 @@
-const basePath = "/adobe_launch/proxy";
+const basePath = window && window.UseAdobeReactorEndpoint ? "/adobe_launch/proxy" : "/adobe_launch/proxy"; // "https://reactor.adobe.io"
 
 export const http = (request) => {
     return new Promise((resolve, reject) => {
