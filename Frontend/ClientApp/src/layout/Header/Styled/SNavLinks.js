@@ -30,7 +30,7 @@ export const NavLink = styled(Link)`
 
 
 
-export const SocialLink = styled.a`
+export const SSocialLink = styled.a`
     display: flex;
     margin-right: 1.11111rem;
     line-height: 2.77778rem;

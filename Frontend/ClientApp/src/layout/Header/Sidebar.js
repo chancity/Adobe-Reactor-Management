@@ -1,4 +1,4 @@
-import {Menu, MenuInner, Section, SectionTitle, StyledLink} from "./Styled/Sidebar";
+import {Menu, MenuInner, Section, SectionTitle, StyledLink} from "./Styled/SSidebar";
 import React from 'react';
 import {withRouter} from "react-router-dom";
 import navOptions from "./NavOptions";

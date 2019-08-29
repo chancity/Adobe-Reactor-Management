@@ -1,4 +1,4 @@
-import { SocialLink } from "./Styled/NavLinks";
+import { SSocialLink } from "./Styled/SNavLinks";
 import React from 'react';
 import { ReactComponent as GithubSvg } from '../../static/images/social/github.svg';
 //import { ReactComponent as MediumSvg } from '../../static/images/social/medium.svg';
@@ -6,9 +6,9 @@ import { ReactComponent as GithubSvg } from '../../static/images/social/github.s
 export const SocialLinks = () => {
 	return (
 		<>
-			<SocialLink href={"https://github.com/chancity/Adobe-Reactor-Management"} target="_blank">
+			<SSocialLink href={"https://github.com/chancity/Adobe-Reactor-Management"} target="_blank">
 				<GithubSvg/>
-			</SocialLink>
+			</SSocialLink>
 			{/*<SocialLink href={"https://medium.com/some-medium"} target="_blank">
 				<MediumSvg/>
 			</SocialLink>*/}

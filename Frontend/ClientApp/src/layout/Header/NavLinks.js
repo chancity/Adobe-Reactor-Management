@@ -1,9 +1,9 @@
-import { Wrapper } from "./Styled/NavLinks";
-//import { Wrapper, NavLink } from "./Styled/NavLinks";
+import { Wrapper } from "./Styled/SNavLinks";
+//import { Wrapper, NavLink } from "./Styled/NavLinksContainer";
 import React from 'react';
 //import {Seperator} from "./Styled/Navbar";
 
-const NavLinks = ({setSecondaryNavOpen, companyId}) => {
+export const NavLinks = ({setSecondaryNavOpen, companyId}) => {
 	return (
 		<Wrapper style={{height:'44.44px'}}>
 			{/*<NavLink to={`/companies`} onClick={onClick}>
@@ -17,4 +17,3 @@ const NavLinks = ({setSecondaryNavOpen, companyId}) => {
 	);
 };
 
-export default NavLinks

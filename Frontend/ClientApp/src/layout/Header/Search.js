@@ -1,4 +1,4 @@
-import {Label, Header, Modal, Overlay, Wrapper,Input, PreShift} from "./Styled/Search";
+import {Label, Header, Modal, Overlay, Wrapper,Input, PreShift} from "./Styled/SSearch";
 import React from "react";
 import { ReactComponent as SearchSvg } from '../../static/images/layout/menu-search.svg';
 import { ReactComponent as CloseSvg } from '../../static/images/layout/menu-search-close.svg';

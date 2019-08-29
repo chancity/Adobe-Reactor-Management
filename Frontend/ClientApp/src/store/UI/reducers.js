@@ -9,7 +9,7 @@ const initialState = {
 	navOpen: false,
 	secondaryNavOpen: false,
 	searchOpen: false,
-	isMobile: window.innerWidth <= 1000
+	isMobile: (typeof window !== 'undefined') ? window.innerWidth <= 1000 : false
 };
 
 export default (state = initialState, action)  => {

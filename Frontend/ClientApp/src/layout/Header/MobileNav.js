@@ -1,4 +1,4 @@
-import {ArrowWrapper, Button, Wrapper, SecondaryMenu, SecondaryMenuItem} from "./Styled/MobileNavbar";
+import {ArrowWrapper, Button, Wrapper, SecondaryMenu, SecondaryMenuItem} from "./Styled/SMobileNavbar";
 import { ReactComponent as CloseSvg } from '../../static/images/layout/menu-close.svg';
 import { ReactComponent as OpenSvg } from '../../static/images/layout/menu-open.svg';
 import { ReactComponent as ArrowSvg } from '../../static/images/layout/menu-arrow.svg';
@@ -6,7 +6,7 @@ import { ReactComponent as SearchSvg } from '../../static/images/layout/menu-sea
 import React from "react";
 import {Logo} from "../Logo";
 import {SocialLinks} from "./SocialLinks";
-import NavLinks from "../../store/UI/containers/NavLinks";
+import NavLinksContainer from "../../store/UI/containers/NavLinksContainer";
 
 const OpenButtonStyle = {background: "#2f3136"};
 const arrowWrapperStyle = {transformOrigin: "center center",transform: "rotate(180deg)",transition: "transform 0.2s ease 0s"};
@@ -39,7 +39,7 @@ export const MobileNav = ({setSearchOpen, setNavOpen, setSecondaryNavOpen, navOp
 			</ButtonWrapper>
 		</div>
 		<SecondaryMenu open={secondaryNavOpen}>
-			<NavLinks/>
+			<NavLinksContainer/>
 			<SecondaryMenuItem>
 				<SocialLinks/>
 			</SecondaryMenuItem>
