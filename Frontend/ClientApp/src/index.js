@@ -14,7 +14,9 @@ const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const {store, history} = configureStore(baseUrl);
 const rootElement = document.getElementById('root');
 
-store.dispatch(initialize(baseUrl));
+const {Reactor} = store.getState();
+if(!Reactor.initialized)
+    store.dispatch(initialize(baseUrl));
 
 ReactDOM.hydrate(
     <IntlProvider locale={'en'} formats={formats} >

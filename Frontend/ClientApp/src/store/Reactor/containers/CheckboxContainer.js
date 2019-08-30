@@ -1,13 +1,13 @@
 import { connect } from 'react-redux'
-import {LaunchLayout as LaunchLayoutC} from "../../../components/LaunchLayout";
+import {Checkbox as CheckboxC} from "../../../layout/Checkbox";
 
 const mapStateToProps = (state)=> {
 	return {
-		initialized: state.Reactor.initialized
+		isServer: state.UI.isServer
 	}
 };
 
 
-const LaunchLayout = connect(mapStateToProps, null)(LaunchLayoutC);
-export default 	LaunchLayout;
+const Checkbox = connect(mapStateToProps, null)(CheckboxC);
+export default 	Checkbox;
 

@@ -49,25 +49,16 @@
 
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
+  <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+  <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
 
     <!-- Include the newly-built files in the publish output -->
     <ItemGroup>
-      <DistFiles Include="$(SpaRoot)build\**" Exclude="$(SpaSrc)" />
-      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish);">
-        <RelativePath>ClientApp\build\%(DistFiles.RecursiveDir)%(DistFiles.FileName)%(DistFiles.Extension)</RelativePath>
+      <DistFiles Include="$(SpaRoot)**" Exclude="$(SpaRoot)\node_modules;$(SpaRoot)\public;" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="$(SpaRoot)\node_modules;$(SpaRoot)\public;">
+        <RelativePath>ClientApp\%(DistFiles.RecursiveDir)%(DistFiles.FileName)%(DistFiles.Extension)</RelativePath>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </ResolvedFileToPublish>
-    </ItemGroup>
-
-    <ItemGroup>
-      <DistFiles Include="$(SpaRoot)build-ssr\**" Exclude="$(SpaSrc)" />
-      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish);">
-        <RelativePath>ClientApp\build-ssr\%(DistFiles.RecursiveDir)%(DistFiles.FileName)%(DistFiles.Extension)</RelativePath>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </ResolvedFileToPublish>
-    </ItemGroup>
-  </Target>
+    </ItemGroup>  </Target>
 
 </Project>

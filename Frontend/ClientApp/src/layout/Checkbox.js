@@ -86,7 +86,7 @@ const SCheckboxWrapper = styled.div`
     }
 `;
 
-export const Checkbox = () => {
+export const Checkbox = ({isServer}) => {
 	const [checked, setChecked] = React.useState(false);
 	const toggle= () => setChecked(!checked);
 
@@ -94,8 +94,8 @@ export const Checkbox = () => {
 	<SCheckboxWrapper onClick={toggle} checked={checked}>
 		<SCheckboxInput autoComplete={"nope"} type={"text"}/>
 		<SCheckbox checked={checked}>
-			<CheckSvg style={!checked ? CheckSvgStyle : {...CheckSvgStyle, ...CheckedSvgStyle}} checked={checked}/>
+			{!isServer && <CheckSvg style={!checked ? CheckSvgStyle : {...CheckSvgStyle, ...CheckedSvgStyle}} checked={checked}/>}
 		</SCheckbox>
 	</SCheckboxWrapper>
 	)
-}
+};

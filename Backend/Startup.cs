@@ -25,9 +25,11 @@ namespace Backend
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private IHostingEnvironment CurrentEnvironment { get; set; }
+        public Startup(IHostingEnvironment env, IConfiguration configuration)
         {
             Configuration = configuration;
+            CurrentEnvironment = env;
         }
 
         private IConfiguration Configuration { get; }
@@ -48,10 +50,10 @@ namespace Backend
 
             services.AddNodeServices(options =>
             {
-                options.ProjectPath = "../Frontend/ClientApp";
+                options.ProjectPath = CurrentEnvironment.IsDevelopment() ? "../Frontend/ClientApp" : "ClientApp/";
             });
 
-            services.AddSpaPrerenderer();
+           // services.AddSpaPrerenderer();
 
             services
                 .AddMvc()
@@ -97,7 +99,7 @@ namespace Backend
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (CurrentEnvironment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
@@ -122,12 +124,12 @@ namespace Backend
                     defaults: new { controller = "AdobeLaunch", action = "CatchAll" }
                 );
 
-                routes.MapRoute(
-                    name: "default",
-                    template: "/{*slug}",
-                    defaults: new { controller = "PreRender", action = "Index" },
-                    constraints: new { slug = new MyCustomConstraint() }
-                );
+               // routes.MapRoute(
+               //     name: "default",
+               //     template: "/{*slug}",
+               //     defaults: new { controller = "PreRender", action = "Index" },
+               //     constraints: new { slug = new MyCustomConstraint() }
+               // );
             });
 
 

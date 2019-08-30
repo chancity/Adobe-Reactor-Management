@@ -6,14 +6,15 @@ import { createServerRenderer } from 'aspnet-prerendering';
 import configureStore from '../src/store/configureStore'
 import {IntlProvider} from "react-intl";
 import formats from "../src/dateTimeFormats";
-import {initialize} from "../src/store/Reactor/thunk";
 import {AppC} from "../src/store/UI/containers/AppC";
 import { ServerStyleSheet } from 'styled-components'
-//import manifest from '../build/asset-manifest.json';
 
-const createGlobals = (initialReduxState, styles) => ({
+import manifest from '../build/asset-manifest.json';
+
+const createGlobals = (initialReduxState, styles, extraChunks) => ({
 	initialReduxState,
-    styles
+	styles,
+	extraChunks
 });
 
 export default createServerRenderer((params) => {
@@ -22,8 +23,7 @@ export default createServerRenderer((params) => {
 		const urlAfterBasename = params.url.substring(basename.length);
 
 		const routerContext = {};
-		const {store} = configureStore(urlAfterBasename);
-		store.dispatch(initialize(urlAfterBasename));
+		const {store} = configureStore(urlAfterBasename, JSON.parse(params.data));
 
 		const app = (
 			<IntlProvider locale={'en'} formats={formats} >
@@ -39,21 +39,41 @@ export default createServerRenderer((params) => {
 		);
 
 		const renderApp = () => {
-            const sheet = new ServerStyleSheet();
-            try {
-                const html = ReactDOMServer.renderToString(sheet.collectStyles(app));
-                const styles = sheet.getStyleTags(); // or sheet.getStyleElement();
+			const sheet = new ServerStyleSheet();
+			try {
+				const html = ReactDOMServer.renderToString(sheet.collectStyles(app));
+				const styles = sheet.getStyleTags(); // or sheet.getStyleElement();
 
-                return {
-                    html,
-                    styles
-                }
-            } catch (error) {
-                // handle error
-                console.error(error)
-            } finally {
-                sheet.seal()
-            }
+				const extractJsAssets = (assets) =>
+					Object.keys(assets)
+					.filter(asset => assets[asset].replace('.js','').endsWith('chunk') || assets[asset].endsWith('service-worker.js') || asset.endsWith('runtime~main.js'))
+					.map(k => assets[k]);
+
+				// Let's format those assets into pretty <script> tags
+				const extraJSChunks = extractJsAssets(manifest.files).map(
+					c => `<script type="text/javascript" src="/${c.replace(/^\//, '')}"></script>`
+				);
+				const extractCSSAssets = (assets) =>
+					Object.keys(assets)
+					.filter(asset => assets[asset].replace('.css','').endsWith('chunk'))
+					.map(k => assets[k]);
+
+				// Let's format those assets into pretty <script> tags
+				const extraCSSChunks = extractCSSAssets(manifest.files).map(
+					c => `<link rel="stylesheet" href="/${c.replace(/^\//, '')}">`
+				);
+
+				return {
+					html,
+					styles,
+					extraChunks: [...extraCSSChunks, ...extraJSChunks].join('')
+				}
+			} catch (error) {
+				// handle error
+				console.error(error)
+			} finally {
+				sheet.seal()
+			}
 		};
 
 		//  If there's a redirection, just send this information back to the host application.
@@ -64,10 +84,10 @@ export default createServerRenderer((params) => {
 			});
 		} else {
 			//  We also send the redux store state, so the client can continue execution where the server left off.
-            const {html, styles} = renderApp();
+			const {html, styles, extraChunks} = renderApp();
 			resolve({
-                html,
-				globals: createGlobals(store.getState(), styles)
+				html,
+				globals: createGlobals(store.getState(), styles, extraChunks)
 			});
 		}
 	});

@@ -4,8 +4,6 @@ import {AppBodyContainer} from "../store/UI/containers/AppBodyContainer";
 import {NavMenu} from "../layout/Header/NavMenu";
 import {AppParentContainer} from "../store/UI/containers/AppContainer";
 
-
-
 export const App = ({setIsMobile}) => {
 	const [isMobile, localSetMobile] = React.useState(typeof window !== 'undefined' ? window.innerWidth <= 1000 : false);
 

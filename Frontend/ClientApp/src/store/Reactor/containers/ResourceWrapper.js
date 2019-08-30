@@ -5,7 +5,8 @@ import {listResource} from "../thunk";
 const mapStateToProps = (state)=> {
 	return {
 		initialized: state.Reactor.initialized,
-		pathname: state.router.location.pathname
+		pathname: state.router.location.pathname,
+		path: state.Reactor.path
 	}
 };
 

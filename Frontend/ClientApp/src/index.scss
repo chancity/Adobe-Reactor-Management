@@ -14,7 +14,7 @@ body {
     font-family: adobe-clean, "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
     font-smooth: always;
-    background-color: $background-1;
+    background-color: #36393f;
 }
 
 .navActive {
@@ -71,8 +71,8 @@ button {
 }
 
 ::selection {
-    background-color: $foreground-effect-2;
-    color: $foreground-3;
+    background-color: #dcddde;
+    color: #b9bbbe;
     text-shadow: none;
 }
 

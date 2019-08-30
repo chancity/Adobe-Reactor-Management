@@ -1,16 +1,21 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @inject Microsoft.AspNetCore.SpaServices.Prerendering.ISpaPrerenderer prerenderer
+@inject Microsoft.AspNetCore.Hosting.IHostingEnvironment env
+
+@using Microsoft.AspNetCore.Hosting
 @using Newtonsoft.Json
 @{
+    var renderPath = env.IsDevelopment() ? "../Frontend/ClientApp/server/bootstrap" : "ClientApp/server/bootstrap";
     Layout = null;
-    var initialState = JsonConvert.SerializeObject(new {UI = new {}, Reactor = new {}});
-
+    var initialState = JsonConvert.SerializeObject(new {UI = new { isServer = true}, Reactor = Model});
     var prerenderResult = await prerenderer.RenderToString(
-        "../Frontend/ClientApp/server/bootstrap",
+        renderPath,
         customDataParameter: initialState);
 
     var initialReduxStateJson = prerenderResult?.Globals?["initialReduxState"]?.ToString();
     var styles = prerenderResult?.Globals?["styles"]?.ToString();
+    var extraChunks = prerenderResult?.Globals?["extraChunks"]?.ToString();
+    
 }
 
 <html>
@@ -23,16 +28,15 @@
     <link rel="shortcut icon" href="/favicon.ico">
 
     <script>
-        window.__PRELOADED_STATE__ = @Html.Raw(initialReduxStateJson);
+        window.__PRELOADED_STATE__ = @Html.Raw(initialReduxStateJson)
     </script>
+
     @Html.Raw(styles)
 </head>
 <body>
-    <div id="root">@Html.Raw(prerenderResult?.Html)</div>
+<div id="root">@Html.Raw(prerenderResult?.Html)</div>
 
-    <script src="/static/js/bundle.js"></script>
-    <script src="/static/js/0.chunk.js"></script>
-    <script src="/static/js/main.chunk.js"></script>
+    @Html.Raw(extraChunks)
 
 </body>
 </html>

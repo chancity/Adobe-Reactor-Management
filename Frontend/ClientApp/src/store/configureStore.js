@@ -12,10 +12,10 @@ export const isServer = !(
 	window.document.createElement
 );
 
-export default (url = '/') => {
+export default (url = '/', initialState = {}) => {
 	const history = isServer
 		? createMemoryHistory({
-			initialEntries: [url]
+			initialEntries: [initialState.Reactor.path]
 		})
 		: createBrowserHistory();
 
@@ -43,12 +43,13 @@ export default (url = '/') => {
 		...reducers,
 		router: connectRouter(history)
 	});
-	const initialState = isServer ? {} :  window.__PRELOADED_STATE__;
-
+	//throw initialState;
+	initialState = isServer ? initialState :  window.__PRELOADED_STATE__;
 	if(!isServer && typeof window.__PRELOADED_STATE__ !== 'undefined'){
 		initialState.UI.isServer = false;
 	}
 
+	console.log(initialState);
 	const store = createStore(
 		rootReducer,
 		initialState,

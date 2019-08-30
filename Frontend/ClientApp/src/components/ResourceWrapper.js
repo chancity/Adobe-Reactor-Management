@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-export const ResourceWrapper = ({pathname, listResource, initialized}) => {
+export const ResourceWrapper = ({path, pathname, listResource, initialized}) => {
 
 	React.useEffect(() => {
 		if (initialized) {

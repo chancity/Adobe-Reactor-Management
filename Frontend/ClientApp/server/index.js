@@ -57,7 +57,7 @@ export default createServerRenderer((params) => {
 				.replace('<div id="root"></div>', `<div id="root">${markup}</div>`)
 				.replace('window.__PRELOADED_STATE__={}', `window.__PRELOADED_STATE__=${JSON.stringify(params.data)}`)
 				.replace(/\%PUBLIC_URL\%/g, '')
-				.replace('</body>', '<script type="text/javascript" src="/static/js/bundle.js"></script>\n</body>')
+				.replace('</body>', '<script type="text/javascript" src="/static/js/bundle.js"></script>\n</body>');
 
 				res({
 					html: RenderedApp,

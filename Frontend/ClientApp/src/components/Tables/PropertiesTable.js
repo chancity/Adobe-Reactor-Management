@@ -5,8 +5,9 @@ import React from "react";
 import {ReactComponent as MobileSvg} from '../../static/images/layout/platform-mobile.svg';
 import {ReactComponent as WebSvg} from '../../static/images/layout/platform-web.svg';
 import {Status} from "../../layout/Status";
-import {Checkbox} from "../../layout/Checkbox";
 import {maskStr} from "../../pages/utils";
+import Checkbox from "../../store/Reactor/containers/CheckboxContainer";
+import {isServer} from "../../store/configureStore";
 
 const svgStyle = {
     width: '24px',
@@ -28,10 +29,13 @@ const SSpanWrapper = styled.span`
 `;
 const Platform = ({type}) => (
     <SSpanWrapper>
-        {type === 'web' ?
-            <WebSvg style={svgStyle}/>
-            :
-            <MobileSvg style={svgStyle}/>}
+	    {!isServer &&
+	    <>
+		    {type === 'web' ?
+			    <WebSvg style={svgStyle}/>
+			    :
+			    <MobileSvg style={svgStyle}/>}
+	    </>}
         <span>
 					{type === 'web' ? 'Web' : 'Mobile'}
 				</span>
@@ -52,7 +56,6 @@ const Date = ({date}) => (
 );
 
 export const PropertiesTable = ({list, propertyId, companyId, setPropertyIdAction}) => {
-
     const setPropertyId = (id, name, platform) => {
         setPropertyIdAction(id, name, platform)
     };

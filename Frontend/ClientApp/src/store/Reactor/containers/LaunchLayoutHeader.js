@@ -6,7 +6,8 @@ const mapStateToProps = (state)=> {
 		companyName: state.Reactor.companyName,
 		companyId: state.Reactor.companyId,
 		propertyName: state.Reactor.propertyName,
-		propertyPlatform: state.Reactor.propertyPlatform
+		propertyPlatform: state.Reactor.propertyPlatform,
+		isServer: state.UI.isServer
 	}
 };
 
