@@ -1,9 +1,9 @@
 import {Normal, StartWrapper, EndWrapper, SocialWrapper} from "./Styled/SNavbar";
 import React from 'react';
 import {Logo} from "../Logo";
-import {SocialLinks} from "./SocialLinks";
 import {SearchContainer} from "../../store/UI/containers/SearchContainer";
 import {NavLinks} from "./NavLinks";
+import {SocialLinksContainer} from "../../store/UI/containers/SocialLinksContainer";
 
 
 
@@ -17,7 +17,7 @@ export const Nav = () => {
 			<EndWrapper>
 				<SearchContainer/>
 				<SocialWrapper>
-					<SocialLinks/>
+					<SocialLinksContainer/>
 				</SocialWrapper>
 			</EndWrapper>
 		</Normal>

@@ -5,7 +5,6 @@ import { Provider } from 'react-redux'
 import ReactDOMServer from 'react-dom/server'
 import { StaticRouter } from 'react-router'
 import { createServerRenderer } from 'aspnet-prerendering';
-
 import configureStore from '../src/store/configureStore'
 import App from '../src/app/App'
 import {IntlProvider} from "react-intl";

@@ -5,8 +5,8 @@ import { ReactComponent as ArrowSvg } from '../../static/images/layout/menu-arro
 import { ReactComponent as SearchSvg } from '../../static/images/layout/menu-search.svg';
 import React from "react";
 import {Logo} from "../Logo";
-import {SocialLinks} from "./SocialLinks";
 import {NavLinksContainer} from "../../store/UI/containers/NavLinksContainer";
+import {SocialLinksContainer} from "../../store/UI/containers/SocialLinksContainer";
 
 const OpenButtonStyle = {background: "#2f3136"};
 const arrowWrapperStyle = {transformOrigin: "center center",transform: "rotate(180deg)",transition: "transform 0.2s ease 0s"};
@@ -22,26 +22,26 @@ export const ButtonWrapper = ({children, onClick, open}) => {
 	)
 };
 
-export const MobileNav = ({setSearchOpen, setNavOpen, setSecondaryNavOpen, navOpen, secondaryNavOpen, style}) => (
+export const MobileNav = ({isServer, setSearchOpen, setNavOpen, setSecondaryNavOpen, navOpen, secondaryNavOpen, style}) => (
 	<Wrapper style={style}>
 		<ButtonWrapper onClick={setNavOpen} open={navOpen}>
-			{navOpen ? <CloseSvg/> : <OpenSvg/>}
+			{!isServer && (navOpen ? <CloseSvg/> : <OpenSvg/>)}
 		</ButtonWrapper>
 		<Logo/>
 		<div style={searchWrapperStyle}>
 			<ButtonWrapper  onClick={setSearchOpen}>
-				<SearchSvg style={searchSvgStyle}/>
+				{!isServer && <SearchSvg style={searchSvgStyle}/>}
 			</ButtonWrapper>
 			<ButtonWrapper onClick={setSecondaryNavOpen} open={secondaryNavOpen}>
 				<ArrowWrapper style={secondaryNavOpen ? arrowWrapperStyle : null}>
-					<ArrowSvg style={arrowSvgStyle}/>
+					{!isServer && <ArrowSvg style={arrowSvgStyle}/>}
 				</ArrowWrapper>
 			</ButtonWrapper>
 		</div>
 		<SecondaryMenu open={secondaryNavOpen}>
 			<NavLinksContainer/>
 			<SecondaryMenuItem>
-				<SocialLinks/>
+				<SocialLinksContainer/>
 			</SecondaryMenuItem>
 		</SecondaryMenu>
 	</Wrapper>

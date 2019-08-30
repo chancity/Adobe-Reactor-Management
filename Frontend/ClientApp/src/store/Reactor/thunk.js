@@ -34,8 +34,6 @@ import {PathHandler} from "./PathHandler";
 
 export const initialize = (path) => async (dispatch, getState) => {
 	const initializeCompaniesPath = "/companies";
-	const state = getState();
-	console.log(state);
 	const pathHandler = new PathHandler(path);
 	let response = null;
 	try {
@@ -51,7 +49,6 @@ export const initialize = (path) => async (dispatch, getState) => {
 			response = await get(initializePropertyPath);
 			const propertyData = response.parsedBody.data;
 			dispatch(setPropertyIdAction(propertyData.id, propertyData.attributes.name, propertyData.attributes.platform));
-
 		} else if (pathHandler.parts.length <= 2 ) {
 			dispatch(push(`/companies/${companyData.id}/properties`))
 		}

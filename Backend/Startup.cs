@@ -1,17 +1,19 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using AdobeReactorApi;
-using Backend.Middleware;
 using Backend.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.AspNetCore.SpaServices;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
@@ -39,7 +41,20 @@ namespace Backend
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc()
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/build";
+            });
+
+            services.AddNodeServices(options =>
+            {
+                options.ProjectPath = "../Frontend/ClientApp";
+            });
+
+            services.AddSpaPrerenderer();
+
+            services
+                .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(options =>
                 {
@@ -47,17 +62,10 @@ namespace Backend
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 });
 
-
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/build";
-            });
-
-          // services.AddNodeServices(options =>
-          // {
-          //     options.ProjectPath = "../Frontend/ClientApp";
-          // });
-          // services.AddSpaPrerenderer();
+          //  services.AddRouting(options =>
+          //  {
+          //      options.ConstraintMap.Add("customName", typeof(MyCustomConstraint));
+          //  });
 
             var accountOptions = new AccountOptions(
                 Configuration[Defaults.ORGANIZATION_ID],
@@ -100,25 +108,29 @@ namespace Backend
                 app.UseHsts();
             }
 
+
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
             
             app.UseCors(Defaults.ALL_CORS_POLICY);
+
             app.UseMvc(routes =>
             {
-              // routes.MapRoute(
-              //     name: "default",
-              //     template: "{controller=Home}/{action=Index}/{id?}"
-              // );
-
                 routes.MapRoute(
                     name: "proxy",
                     template: "adobe_launch/proxy/{*slug}",
                     defaults: new { controller = "AdobeLaunch", action = "CatchAll" }
                 );
+
+                routes.MapRoute(
+                    name: "default",
+                    template: "/{*slug}",
+                    defaults: new { controller = "PreRender", action = "Index" },
+                    constraints: new { slug = new MyCustomConstraint() }
+                );
             });
 
-            
+
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "../Frontend/ClientApp";
@@ -127,6 +139,26 @@ namespace Backend
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
+        }
+    }
+
+    public class MyCustomConstraint : IRouteConstraint
+    {
+        public bool Match(HttpContext httpContext, IRouter route, string routeKey, RouteValueDictionary values, RouteDirection routeDirection)
+        {
+            if (Path.HasExtension(httpContext.Request.Path))
+                return false;
+
+            if (httpContext.Request.Path.Value.Contains("sockjs-node"))
+                return false;
+
+            if (httpContext.Request.Headers.TryGetValue("Accept", out var accept))
+            {
+                return accept.First().Contains("text/html");
+            }
+            
+
+            return false;
         }
     }
 }

@@ -1,4 +1,8 @@
-const basePath =  "/adobe_launch/proxy";// typeof window === 'undefined' ? "/adobe_launch/proxy" : "https://reactor.adobe.io";
+const basePath = !(
+    typeof window !== 'undefined' &&
+    window.document &&
+    window.document.createElement
+) ? "http://127.0.0.1:5000/adobe_launch/proxy" :  "/adobe_launch/proxy"; // "https://reactor.adobe.io";
 
 export const http = (request) => {
     return new Promise((resolve, reject) => {

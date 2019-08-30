@@ -1,69 +1,74 @@
-import path from 'path'
-import fs from 'fs'
 import React from 'react'
 import { Provider } from 'react-redux'
 import ReactDOMServer from 'react-dom/server'
 import { StaticRouter } from 'react-router'
 import { createServerRenderer } from 'aspnet-prerendering';
 import configureStore from '../src/store/configureStore'
-import App from '../src/app/App'
 import {IntlProvider} from "react-intl";
 import formats from "../src/dateTimeFormats";
-
+import {initialize} from "../src/store/Reactor/thunk";
+import {AppC} from "../src/store/UI/containers/AppC";
+import { ServerStyleSheet } from 'styled-components'
 //import manifest from '../build/asset-manifest.json';
 
+const createGlobals = (initialReduxState, styles) => ({
+	initialReduxState,
+    styles
+});
 
 export default createServerRenderer((params) => {
-	return new Promise((res, rej) => {
-		const filePath = path.resolve(__dirname, '..', 'public', 'index.html');
+	return new Promise(resolve => {
+		const basename = params.baseUrl.substring(0, params.baseUrl.length - 1); // Remove trailing slash.
+		const urlAfterBasename = params.url.substring(basename.length);
 
-		fs.readFile(filePath, 'utf8', (err, htmlData) => {
-			if (err) {
-				console.error('read err', err);
-				return rej('no file read')
-			}
-			const context = {};
-			const {store, history} = configureStore(params.location.path, JSON.parse(params.data));
-			store.dispatch(initialize(params.location.path));
+		const routerContext = {};
+		const {store} = configureStore(urlAfterBasename);
+		store.dispatch(initialize(urlAfterBasename));
 
-			const markup = ReactDOMServer.renderToString(
-				<IntlProvider locale={'en'} formats={formats} >
-					<Provider store={store}>
-						<StaticRouter location={params.location.path} context={context}>
-							<App />
-						</StaticRouter>
-					</Provider>
-				</IntlProvider>
-			);
+		const app = (
+			<IntlProvider locale={'en'} formats={formats} >
+				<Provider store={store}>
+					<StaticRouter
+						basename={basename}
+						location={params.location.path}
+						context={routerContext}>
+						<AppC />
+					</StaticRouter>
+				</Provider>
+			</IntlProvider>
+		);
 
-			// Let's give ourself a function to load all our page-specific JS assets for code splitting
-			const extractAssets = (assets, chunks) =>
-				Object.keys(assets)
-				.filter(asset => chunks.indexOf(asset.replace('.js', '')) > -1)
-				.map(k => assets[k]);
+		const renderApp = () => {
+            const sheet = new ServerStyleSheet();
+            try {
+                const html = ReactDOMServer.renderToString(sheet.collectStyles(app));
+                const styles = sheet.getStyleTags(); // or sheet.getStyleElement();
 
-			// Let's format those assets into pretty <script> tags
-			//const extraChunks = extractAssets(manifest).map(
-			//	c => `<script type="text/javascript" src="/${c.replace(/^\//, '')}"></script>`
-			//);
+                return {
+                    html,
+                    styles
+                }
+            } catch (error) {
+                // handle error
+                console.error(error)
+            } finally {
+                sheet.seal()
+            }
+		};
 
-			if (context.url) {
-				// Somewhere a `<Redirect>` was rendered
-				res({ redirectUrl: context.url });
-				return;
-			} else {
-				// we're good, send the response
-				const RenderedApp = htmlData
-				.replace('<div id="root"></div>', `<div id="root">${markup}</div>`)
-				.replace('window.__PRELOADED_STATE__={}', `window.__PRELOADED_STATE__=${JSON.stringify(params.data)}`)
-				.replace(/\%PUBLIC_URL\%/g, '')
-				.replace('</body>', '<script type="text/javascript" src="/static/js/bundle.js"></script>\n</body>')
-
-				res({
-					html: RenderedApp,
-					globals: { initialReduxState: store.getState() }
-				});
-			}
-		})
+		//  If there's a redirection, just send this information back to the host application.
+		if (routerContext.url) {
+			resolve({
+				redirectUrl: routerContext.url,
+				globals: createGlobals(store.getState())
+			});
+		} else {
+			//  We also send the redux store state, so the client can continue execution where the server left off.
+            const {html, styles} = renderApp();
+			resolve({
+                html,
+				globals: createGlobals(store.getState(), styles)
+			});
+		}
 	});
 });

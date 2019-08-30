@@ -5,19 +5,19 @@ import {PropertiesTable} from "../../components/Tables/PropertiesTable";
 import {SButton, SButtonLabel, SEndWrapper, SResourceControls, SStartWrapper} from "../../layout/SResourceControls";
 import {formatType, removePlural} from "../utils";
 import LaunchLayout from "../../store/Reactor/containers/LaunchLayout";
-import ResourceWrapper from "../../store/Reactor/containers/ResourceWrapper";
+import {ResourceWrapperContainer} from "../../store/Reactor/containers/ResourceWrapper";
 
-export const PropertiesPage = ({path, list, meta, loaded, companyId, propertyId, setPropertyIdAction}) => {
+export const PropertiesPage = ({pathname, list, meta, loaded, companyId, propertyId, setPropertyIdAction}) => {
 	const [type, setType] = React.useState("");
 
 	React.useEffect(() => {
-		const pathSplit = path.split('/');
+		const pathSplit = pathname.split('/');
 		setType(pathSplit[pathSplit.length-1]);
-	}, [path]);
+	}, [pathname]);
 
 	return (
 		<LaunchLayout>
-			<ResourceWrapper/>
+			<ResourceWrapperContainer/>
 			<Panel style={{minHeight:'666px', justifyContent: (loaded ? undefined : 'center')}}>
 				{loaded ?
 					<>
@@ -27,7 +27,7 @@ export const PropertiesPage = ({path, list, meta, loaded, companyId, propertyId,
 						<SResourceControls>
 							<SStartWrapper/>
 							<SEndWrapper>
-								<SButton to={`${path}/new`}>
+								<SButton to={`${pathname}/new`}>
 									<SButtonLabel>
 										{`Add ${removePlural(formatType(type))}`}
 									</SButtonLabel>

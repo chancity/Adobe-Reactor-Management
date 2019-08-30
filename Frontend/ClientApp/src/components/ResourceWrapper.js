@@ -1,20 +1,18 @@
 import React from 'react';
-import {withRouter} from "react-router";
 
 
-const ResourceWrapper = ({location, listResource, initialized}) => {
+export const ResourceWrapper = ({pathname, listResource, initialized}) => {
 
 	React.useEffect(() => {
 		if (initialized) {
-			if (location.pathname !== '/') {
-				listResource(location.pathname);
+			if (pathname !== '/') {
+				listResource(pathname);
 			}
 		}
-	}, [initialized, listResource, location.pathname]);
+	}, [initialized, listResource, pathname]);
 
 
 
 	return null;
 };
 
-export default withRouter(ResourceWrapper);

@@ -1,37 +1,38 @@
-import {Label, Header, Modal, Overlay, Wrapper,Input, PreShift} from "./Styled/SSearch";
 import React from "react";
-import { ReactComponent as SearchSvg } from '../../static/images/layout/menu-search.svg';
-import { ReactComponent as CloseSvg } from '../../static/images/layout/menu-search-close.svg';
+import {SearchLabel, SearchHeader, SearchModal, SearchOverlay, SearchWrapper,SearchInput, SearchPreShift} from "./Styled/SSearch";
+import { ReactComponent as MenuSearchClose } from '../../static/images/layout/menu-search-close.svg';
+import { ReactComponent as MenuSearch } from '../../static/images/layout/menu-search.svg';
+
+
 
 const searchCloseStyle = {width: "1.55556rem",height: "1.55556rem"};
 const searchOpenStyle = {width: "1.44444rem",height: "1.44444rem"};
 const searchInputWrapperStyle = {position: "relative", display: "inline-block", direction: "ltr",  width: "100%"};
 
-export const Search = ({searchOpen, isMobile, setSearchOpen}) =>{
+export const Search = ({searchOpen, isMobile, isServer, setSearchOpen}) =>{
 	const svgStyle = searchOpen && isMobile ? searchOpenStyle : searchCloseStyle;
 	return(
 	<>
-		<Header searchOpen={searchOpen && isMobile}>
+		<SearchHeader searchOpen={searchOpen && isMobile}>
 			<button onClick={setSearchOpen}>
-				<CloseSvg fill="white" style={svgStyle}/>
+				{!isServer && 	<MenuSearchClose fill="white" style={svgStyle}/>}
 			</button>
-		</Header>
-		<Overlay searchOpen={searchOpen}>
-			<Modal searchOpen={searchOpen }>
+		</SearchHeader>
+		<SearchOverlay searchOpen={searchOpen}>
+			<SearchModal searchOpen={searchOpen }>
 				<div>
-				<Wrapper>
-					<Label>
-						<SearchSvg style={svgStyle}/>
-					</Label>
+				<SearchWrapper>
+					<SearchLabel>
+						{!isServer && 	<MenuSearch style={svgStyle}/>}
+					</SearchLabel>
 					<span style={searchInputWrapperStyle}>
-						<Input placeholder={"Search by rule / data element / ..."} autoFocus={true}>
-						</Input>
-						<PreShift/>
+						<SearchInput placeholder={"Search by rule / data element / ..."} autoFocus={true}/>
+						<SearchPreShift/>
 					</span>
-				</Wrapper>
+				</SearchWrapper>
 				</div>
-			</Modal>
-		</Overlay>
+			</SearchModal>
+		</SearchOverlay>
 		</>
 	)
 };

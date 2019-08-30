@@ -9,6 +9,7 @@ const initialState = {
 	navOpen: false,
 	secondaryNavOpen: false,
 	searchOpen: false,
+	isServer:  (typeof window === 'undefined'),
 	isMobile: (typeof window !== 'undefined') ? window.innerWidth <= 1000 : false
 };
 

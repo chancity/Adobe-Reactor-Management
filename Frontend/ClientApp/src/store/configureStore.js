@@ -12,7 +12,7 @@ export const isServer = !(
 	window.document.createElement
 );
 
-export default (url = '/', initialState) => {
+export default (url = '/') => {
 	const history = isServer
 		? createMemoryHistory({
 			initialEntries: [url]
@@ -43,12 +43,23 @@ export default (url = '/', initialState) => {
 		...reducers,
 		router: connectRouter(history)
 	});
+	const initialState = isServer ? {} :  window.__PRELOADED_STATE__;
+
+	if(!isServer && typeof window.__PRELOADED_STATE__ !== 'undefined'){
+		initialState.UI.isServer = false;
+	}
 
 	const store = createStore(
 		rootReducer,
 		initialState,
 		compose(applyMiddleware(routerMiddleware(history), ...middleware), ...enhancers)
 	);
+
+
+
+	if(!isServer && window.__PRELOADED_STATE__ !== 'undefined'){
+		delete window.__PRELOADED_STATE__;
+	}
 
 	return {
 		store,

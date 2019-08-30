@@ -1,0 +1,38 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@inject Microsoft.AspNetCore.SpaServices.Prerendering.ISpaPrerenderer prerenderer
+@using Newtonsoft.Json
+@{
+    Layout = null;
+    var initialState = JsonConvert.SerializeObject(new {UI = new {}, Reactor = new {}});
+
+    var prerenderResult = await prerenderer.RenderToString(
+        "../Frontend/ClientApp/server/bootstrap",
+        customDataParameter: initialState);
+
+    var initialReduxStateJson = prerenderResult?.Globals?["initialReduxState"]?.ToString();
+    var styles = prerenderResult?.Globals?["styles"]?.ToString();
+}
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+    <base href="@Context.Request.Path.Value" />
+    <link rel="manifest" href="/manifest.json">
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <script>
+        window.__PRELOADED_STATE__ = @Html.Raw(initialReduxStateJson);
+    </script>
+    @Html.Raw(styles)
+</head>
+<body>
+    <div id="root">@Html.Raw(prerenderResult?.Html)</div>
+
+    <script src="/static/js/bundle.js"></script>
+    <script src="/static/js/0.chunk.js"></script>
+    <script src="/static/js/main.chunk.js"></script>
+
+</body>
+</html>

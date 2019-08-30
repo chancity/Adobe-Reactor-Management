@@ -1,30 +1,28 @@
 import React from 'react';
 import Routes from "./Routes";
-//import {setIsMobile} from "../store/UI/actions";
-//import {initialize} from "../store/Reactor/thunk";
 import {AppBodyContainer} from "../store/UI/containers/AppBodyContainer";
 import {NavMenu} from "../layout/Header/NavMenu";
 import {AppParentContainer} from "../store/UI/containers/AppContainer";
 
 
 
-export const App = ({isMobile, initialize, setIsMobile}) => {
-	React.useEffect(() =>{
-		initialize(window.location.pathname);
-	}, [initialize]);
+export const App = ({setIsMobile}) => {
+	const [isMobile, localSetMobile] = React.useState(typeof window !== 'undefined' ? window.innerWidth <= 1000 : false);
 
 	React.useEffect(() => {
-		window.addEventListener("resize", () => {
+		typeof window !== 'undefined' && window.addEventListener("resize", () => {
 			const current = window.innerWidth <= 1000;
 			if(current !== isMobile)
+				localSetMobile(current);
 				setIsMobile(current);
+
 		});
 	}, [setIsMobile, isMobile]);
 
 	return (
-		<AppParentContainer isMobile={false}>
+		<AppParentContainer>
 			<NavMenu/>
-			<AppBodyContainer isMobile={false}>
+			<AppBodyContainer>
 				<Routes/>
 			</AppBodyContainer>
 		</AppParentContainer>

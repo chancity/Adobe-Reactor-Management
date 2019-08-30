@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro'
 
-export const Overlay = styled.div`
+export const SearchOverlay = styled.div`
     margin-right: 0.555556rem;
 	display: block;
     @media (max-width: 62.5em) {
@@ -17,7 +17,7 @@ export const Overlay = styled.div`
     }
 `;
 
-export const Modal = styled.div`
+export const SearchModal = styled.div`
 	display: block;
     @media (max-width: 62.5em) {
 	    position: absolute;
@@ -31,7 +31,7 @@ export const Modal = styled.div`
     }
 `;
 
-export const Header = styled.div`
+export const SearchHeader = styled.div`
     color: currentcolor;
     display: ${props => props.searchOpen ? "block" : "none"};
     @media (max-width: 62.5em){
@@ -53,7 +53,7 @@ export const Header = styled.div`
 `;
 
 
-export const Wrapper = styled.form`
+export const SearchWrapper = styled.form`
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -69,7 +69,7 @@ export const Wrapper = styled.form`
 `;
 
 
-export const Label = styled.label`
+export const SearchLabel = styled.label`
     margin-right: 0.222222rem;
     margin-left: 0.222222rem;
     cursor: pointer;
@@ -105,7 +105,7 @@ export const Label = styled.label`
 	}
 `;
 
-export const Input = styled.input`
+export const SearchInput = styled.input`
     width: 14.22222rem;
     line-height: 1.66667rem;
     font-size: 0.833333rem;
@@ -126,7 +126,7 @@ export const Input = styled.input`
 	}
 `;
 
-export const PreShift = styled.pre`
+export const SearchPreShift = styled.pre`
     position: absolute;
     visibility: hidden;	
     white-space: pre;

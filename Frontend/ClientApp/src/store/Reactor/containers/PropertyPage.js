@@ -9,7 +9,7 @@ const mapStateToProps = (state)=> {
 		loaded: state.Reactor.loaded,
 		companyId: state.Reactor.companyId,
 		propertyId: state.Reactor.propertyId,
-		path: state.Reactor.path,
+		pathname: state.router.location.pathname,
 		companyName: state.Reactor.companyName
 	}
 };

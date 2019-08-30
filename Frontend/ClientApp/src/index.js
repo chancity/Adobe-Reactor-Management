@@ -8,18 +8,15 @@ import formats from "./dateTimeFormats";
 import { ConnectedRouter } from 'connected-react-router'
 import './index.scss'
 import {AppC} from "./store/UI/containers/AppC";
+import {initialize} from "./store/Reactor/thunk";
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
-
-const initialState = window.initialReduxState;
-
-const {store, history} = configureStore(baseUrl, initialState);
-
+const {store, history} = configureStore(baseUrl);
 const rootElement = document.getElementById('root');
 
+store.dispatch(initialize(baseUrl));
 
-
-ReactDOM.render(
+ReactDOM.hydrate(
     <IntlProvider locale={'en'} formats={formats} >
         <Provider store={store}>
             <ConnectedRouter history={history}>

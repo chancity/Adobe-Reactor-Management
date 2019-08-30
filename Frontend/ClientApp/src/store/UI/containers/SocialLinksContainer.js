@@ -1,11 +1,11 @@
 import { connect } from 'react-redux'
-import {NavLinks}  from "../../../layout/Header/NavLinks";
+import {SocialLinks}  from "../../../layout/Header/SocialLinks";
 import {setSecondaryNavOpen} from "../actions";
 
 const mapStateToProps = (state)=>({
-	companyId: state.Reactor.companyId
+	isServer: state.UI.isServer
 });
 
 // eslint-disable-next-line no-undef
-export const NavLinksContainer = connect(mapStateToProps,{setSecondaryNavOpen})(NavLinks);
+export const SocialLinksContainer = connect(mapStateToProps,{setSecondaryNavOpen})(SocialLinks);
 
