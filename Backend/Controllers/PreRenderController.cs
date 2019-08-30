@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AdobeReactorApi;
 using Backend.Services;
+using HtmlAgilityPack;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -11,10 +13,13 @@ namespace Backend.Controllers
 {
     public class PreRenderController : Controller
     {
+
+        private readonly PrerenderContent _prerenderContent;
         private readonly ReactorApi _reactorApi;
-        public PreRenderController(ReactorApi reactorApi)
+        public PreRenderController(ReactorApi reactorApi, PrerenderContent prerenderContent)
         {
-            _reactorApi = reactorApi;
+            _prerenderContent = prerenderContent;
+             _reactorApi = reactorApi;
         }
 
         public async Task<IActionResult> Index()
@@ -91,17 +96,33 @@ namespace Backend.Controllers
                 meta = meta
             };
             
-
             Console.WriteLine("hmm");
-            return View(reactorState);
+
+            return View(new ViewModel(reactorState, _prerenderContent.Css, _prerenderContent.Scripts));
+
+   
         }
 
-        public dynamic ConvertToObject(string json)
+
+        private dynamic ConvertToObject(string json)
         {
             return JsonConvert.DeserializeObject<dynamic>(json);
         }
     }
 
+    public class ViewModel
+    {
+        public Reactor Reactor { get; }
+        public string Css { get; }
+        public string Scripts { get; }
+
+        public ViewModel(Reactor reactor, string css, string scripts)
+        {
+            Reactor = reactor;
+            Css = css;
+            Scripts = scripts;
+        }
+    }
     public class Reactor
     {
         public bool initialized { get; set; } = true;

@@ -15,6 +15,7 @@
   
   <ItemGroup>
     <PackageReference Include="AdobeReactorApi" Version="1.0.3" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.12" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
 	<PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
@@ -48,17 +49,24 @@
   </Target>
 
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
-    <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
-  <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
-  <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
+		<!-- As part of publishing, ensure the JS resources are freshly built in production mode 
+	  <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+	  <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />-->
 
-    <!-- Include the newly-built files in the publish output -->
-    <ItemGroup>
-      <DistFiles Include="$(SpaRoot)**" Exclude="$(SpaRoot)\node_modules;$(SpaRoot)\public;" />
-      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="$(SpaRoot)\node_modules;$(SpaRoot)\public;">
-        <RelativePath>ClientApp\%(DistFiles.RecursiveDir)%(DistFiles.FileName)%(DistFiles.Extension)</RelativePath>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </ResolvedFileToPublish>
-    </ItemGroup>  </Target>
-
+		<ItemGroup>
+			<Compile Remove="$(SpaRoot)\node_modules\**" />
+			<Content Remove="$(SpaRoot)\node_modules\**" />
+			<EmbeddedResource Remove="$(SpaRoot)\node_modules\**" />
+			<None Remove="$(SpaRoot)\node_modules\**" />
+			
+		</ItemGroup>
+		<!-- Include the newly-built files in the publish output -->
+		<ItemGroup>
+		  <DistFiles Include="$(SpaRoot)**" Exclude="$(SpaRoot)\node_modules\**;$(SpaRoot)\public;" />
+		  <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+			<RelativePath>ClientApp\%(DistFiles.RecursiveDir)%(DistFiles.FileName)%(DistFiles.Extension)</RelativePath>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		  </ResolvedFileToPublish>
+		</ItemGroup>  
+	</Target>
 </Project>

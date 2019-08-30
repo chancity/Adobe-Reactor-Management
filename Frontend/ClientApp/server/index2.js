@@ -9,12 +9,9 @@ import formats from "../src/dateTimeFormats";
 import {AppC} from "../src/store/UI/containers/AppC";
 import { ServerStyleSheet } from 'styled-components'
 
-import manifest from '../build/asset-manifest.json';
-
-const createGlobals = (initialReduxState, styles, extraChunks) => ({
+const createGlobals = (initialReduxState, styles) => ({
 	initialReduxState,
-	styles,
-	extraChunks
+	styles
 });
 
 export default createServerRenderer((params) => {
@@ -44,29 +41,9 @@ export default createServerRenderer((params) => {
 				const html = ReactDOMServer.renderToString(sheet.collectStyles(app));
 				const styles = sheet.getStyleTags(); // or sheet.getStyleElement();
 
-				const extractJsAssets = (assets) =>
-					Object.keys(assets)
-					.filter(asset => assets[asset].replace('.js','').endsWith('chunk') || assets[asset].endsWith('service-worker.js') || asset.endsWith('runtime~main.js'))
-					.map(k => assets[k]);
-
-				// Let's format those assets into pretty <script> tags
-				const extraJSChunks = extractJsAssets(manifest.files).map(
-					c => `<script type="text/javascript" src="/${c.replace(/^\//, '')}"></script>`
-				);
-				const extractCSSAssets = (assets) =>
-					Object.keys(assets)
-					.filter(asset => assets[asset].replace('.css','').endsWith('chunk'))
-					.map(k => assets[k]);
-
-				// Let's format those assets into pretty <script> tags
-				const extraCSSChunks = extractCSSAssets(manifest.files).map(
-					c => `<link rel="stylesheet" href="/${c.replace(/^\//, '')}">`
-				);
-
 				return {
 					html,
-					styles,
-					extraChunks: [...extraCSSChunks, ...extraJSChunks].join('')
+					styles
 				}
 			} catch (error) {
 				// handle error
@@ -84,10 +61,10 @@ export default createServerRenderer((params) => {
 			});
 		} else {
 			//  We also send the redux store state, so the client can continue execution where the server left off.
-			const {html, styles, extraChunks} = renderApp();
+			const {html, styles} = renderApp();
 			resolve({
 				html,
-				globals: createGlobals(store.getState(), styles, extraChunks)
+				globals: createGlobals(store.getState(), styles)
 			});
 		}
 	});

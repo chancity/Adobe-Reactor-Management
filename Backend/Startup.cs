@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AdobeReactorApi;
 using Backend.Services;
+using HtmlAgilityPack;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -23,6 +24,17 @@ using Newtonsoft.Json;
 
 namespace Backend
 {
+    public class PrerenderContent
+    {
+        public string Css { get; }
+        public string Scripts { get; }
+
+        public PrerenderContent(string css, string scripts)
+        {
+            Css = css;
+            Scripts = scripts;
+        }
+    }
     public class Startup
     {
         private IHostingEnvironment CurrentEnvironment { get; set; }
@@ -41,6 +53,28 @@ namespace Backend
             return new RsaSecurityKey(rsaPrivateKey);
         }
 
+
+        private PrerenderContent GetPrerenderContent()
+        {
+            var spaBuildIndex = @"ClientApp\build\index.html";
+            string baseHtml = "";
+            using (var str = new StreamReader(spaBuildIndex))
+                baseHtml = str.ReadToEnd();
+
+            var doc = new HtmlDocument();
+            doc.Load(spaBuildIndex);
+            var css = GetChunks(doc, "link");
+            var scripts = GetChunks(doc, "script");
+
+            return new PrerenderContent(css, scripts);
+        }
+        private string GetChunks(HtmlDocument doc, string elementName)
+        {
+            var chunks = doc.DocumentNode.Descendants().Where(n => n.Name == elementName).Select(n => n.OuterHtml);
+            return String.Join(" ", chunks);
+        }
+
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSpaStaticFiles(configuration =>
@@ -50,11 +84,22 @@ namespace Backend
 
             services.AddNodeServices(options =>
             {
-                options.ProjectPath = CurrentEnvironment.IsDevelopment() ? "../Frontend/ClientApp" : "ClientApp/";
+
+                if (CurrentEnvironment.IsDevelopment())
+                {
+                    options.LaunchWithDebugging = true;
+                    options.DebuggingPort = 9229;
+                    options.ProjectPath = "../Frontend/ClientApp";
+                }
+                else
+                {
+                    options.ProjectPath = "ClientApp/";
+                }
+           
             });
 
-           // services.AddSpaPrerenderer();
-
+            services.AddSpaPrerenderer();
+            services.AddSingleton(GetPrerenderContent());
             services
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
@@ -64,10 +109,6 @@ namespace Backend
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 });
 
-          //  services.AddRouting(options =>
-          //  {
-          //      options.ConstraintMap.Add("customName", typeof(MyCustomConstraint));
-          //  });
 
             var accountOptions = new AccountOptions(
                 Configuration[Defaults.ORGANIZATION_ID],
@@ -124,12 +165,9 @@ namespace Backend
                     defaults: new { controller = "AdobeLaunch", action = "CatchAll" }
                 );
 
-               // routes.MapRoute(
-               //     name: "default",
-               //     template: "/{*slug}",
-               //     defaults: new { controller = "PreRender", action = "Index" },
-               //     constraints: new { slug = new MyCustomConstraint() }
-               // );
+                routes.MapSpaFallbackRoute(
+                    name: "spa-fallback",
+                    defaults: new { controller = "PreRender", action = "Index" });
             });
 
 
@@ -141,26 +179,6 @@ namespace Backend
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
-        }
-    }
-
-    public class MyCustomConstraint : IRouteConstraint
-    {
-        public bool Match(HttpContext httpContext, IRouter route, string routeKey, RouteValueDictionary values, RouteDirection routeDirection)
-        {
-            if (Path.HasExtension(httpContext.Request.Path))
-                return false;
-
-            if (httpContext.Request.Path.Value.Contains("sockjs-node"))
-                return false;
-
-            if (httpContext.Request.Headers.TryGetValue("Accept", out var accept))
-            {
-                return accept.First().Contains("text/html");
-            }
-            
-
-            return false;
         }
     }
 }

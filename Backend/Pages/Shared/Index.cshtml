@@ -7,36 +7,33 @@
 @{
     var renderPath = env.IsDevelopment() ? "../Frontend/ClientApp/server/bootstrap" : "ClientApp/server/bootstrap";
     Layout = null;
-    var initialState = JsonConvert.SerializeObject(new {UI = new { isServer = true}, Reactor = Model});
+    var initialState = JsonConvert.SerializeObject(new {UI = new {isServer = true}, Reactor = Model.Reactor});
     var prerenderResult = await prerenderer.RenderToString(
         renderPath,
         customDataParameter: initialState);
 
     var initialReduxStateJson = prerenderResult?.Globals?["initialReduxState"]?.ToString();
     var styles = prerenderResult?.Globals?["styles"]?.ToString();
-    var extraChunks = prerenderResult?.Globals?["extraChunks"]?.ToString();
-    
 }
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="theme-color" content="#000000">
-    <base href="@Context.Request.Path.Value" />
-    <link rel="manifest" href="/manifest.json">
-    <link rel="shortcut icon" href="/favicon.ico">
+    <base href="@Context.Request.Path.Value"/>
+    @Html.Raw(styles)
+    @Html.Raw(Model.Css)
 
     <script>
         window.__PRELOADED_STATE__ = @Html.Raw(initialReduxStateJson)
     </script>
-
-    @Html.Raw(styles)
+    <title>Adobe Launch Manager</title>
 </head>
 <body>
 <div id="root">@Html.Raw(prerenderResult?.Html)</div>
 
-    @Html.Raw(extraChunks)
+@Html.Raw(Model.Scripts)
 
 </body>
 </html>
